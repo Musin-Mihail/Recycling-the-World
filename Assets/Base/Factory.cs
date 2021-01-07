@@ -33,7 +33,6 @@ public class Factory : MonoBehaviour
         }
        StartCoroutine ("Build");
     }
-
     void Update()
     {
         if (BuildRes == 220)

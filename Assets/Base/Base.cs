@@ -33,7 +33,6 @@ public class Base : MonoBehaviour
         }
        StartCoroutine ("Build");
     }
-
     void Update()
     {
         for(int i = 0; i < 2; i++)
@@ -105,7 +104,6 @@ public class Base : MonoBehaviour
                 Red --;
                 var res = Instantiate(Global.ResourceBuild, ListBase[ListBase.Count-1].transform.position, transform.rotation);
                 res.GetComponent<ResourceBuild>().ListBase = ListBase;
-                // res.transform.position = new Vector2 (Random.Range(res.transform.position.x-0.3f,res.transform.position.x+0.3f),Random.Range(res.transform.position.y-0.3f,res.transform.position.y+0.3f));
                 res.GetComponent<SpriteRenderer>().color = Color.red;
                 res.tag = "Red2";
             }
@@ -114,19 +112,11 @@ public class Base : MonoBehaviour
                 Yellow--;
                 var res2 = Instantiate(Global.ResourceBuild, ListBase[ListBase.Count-1].transform.position, transform.rotation);
                 res2.GetComponent<ResourceBuild>().ListBase = ListBase;
-                // res2.transform.position = new Vector2 (Random.Range(res2.transform.position.x-0.3f,res2.transform.position.x+0.3f),Random.Range(res2.transform.position.y-0.3f,res2.transform.position.y+0.3f));
                 res2.GetComponent<SpriteRenderer>().color = Color.yellow;
                 res2.tag = "Yellow2";
             }
             yield return new WaitForSeconds(0.01f);      
         }
-        
-
-        // do
-        // {Invoke("enableBase",20);}
-        // Debug.Log("3");
-        // enabled = false;
-        
     }
     void CreatingList()
     {
@@ -135,11 +125,6 @@ public class Base : MonoBehaviour
         {
             NextBase = NextBase.GetComponent<Base>().NearBase;
             CreatingList();
-        }
-        // else
-        // {
-        //     ListBase.Add (NextBase);
-        //     // NextBase = null;
-        // }        
+        }   
     }
 }

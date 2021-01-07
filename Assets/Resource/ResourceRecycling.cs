@@ -19,7 +19,6 @@ public class ResourceRecycling : MonoBehaviour
             {
                 if(count!=0)
                 {
-                    
                     transform.position = new Vector2 (Random.Range(ListBase[count].transform.position.x-0.4f,ListBase[count].transform.position.x+0.4f),Random.Range(ListBase[count].transform.position.y-0.4f,ListBase[count].transform.position.y+0.4f));
                     count--;
                 }

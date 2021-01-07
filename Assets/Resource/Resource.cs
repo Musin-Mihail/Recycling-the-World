@@ -5,12 +5,6 @@ using UnityEngine;
 public class Resource : MonoBehaviour
 {
     public GameObject Target;
-    // Rigidbody2D rb;
-
-    // void Start()
-    // {
-    //     rb = GetComponent<Rigidbody2D>();
-    // }
     void Update()
     {
         if(Target !=null)
@@ -43,11 +37,4 @@ public class Resource : MonoBehaviour
             }
         }
     }
-    // private void OnTriggerEnter2D(Collider2D other)
-    // {
-    //     if(other.name == "Base")
-    //     {
-    //         Target = other.GetComponent<Base>().NearBase;
-    //     }
-    // }
 }

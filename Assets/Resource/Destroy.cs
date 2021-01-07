@@ -15,18 +15,6 @@ public class Destroy : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         layerMask3 = layerMask | layerMask2;
     }
-    // void Update()
-    // {
-    //     DistancePlayer = Vector3.Distance(transform.position,Global.Player.transform.position);
-    //     if(DistancePlayer<10+Global.storage)
-    //     {
-    //         GetComponent<SpriteRenderer>().enabled = true;
-    //     }
-    //     else
-    //     {
-    //         GetComponent<SpriteRenderer>().enabled = false;
-    //     }
-    // }
     private void OnTriggerStay2D(Collider2D other)
     {
         if(other.name == "Vacuum")

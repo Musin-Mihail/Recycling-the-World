@@ -61,10 +61,6 @@ public class Chance : MonoBehaviour
                 GetComponent<SpriteRenderer>().color = new Color32(20,0,0,255);
             }
         }
-        if(transform.localScale.x <= 2.5f)
-        {
-            // Destroy(GetComponent<ShadowCaster2D>());
-        }
         Invoke("GenCave",Random.Range(0.4f,0.7f));
     }
     private void OnTriggerEnter2D(Collider2D other)
