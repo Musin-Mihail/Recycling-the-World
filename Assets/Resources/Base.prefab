@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 6736575371198307349}
   - component: {fileID: 1565989387432100841}
   - component: {fileID: 4569698618086580560}
+  - component: {fileID: -6968146787626295207}
   m_Layer: 9
   m_Name: Base
   m_TagString: Base
@@ -56,6 +57,8 @@ MonoBehaviour:
   BuildRes: 0
   LightBase: {fileID: 7320079444759867206}
   ListBase: []
+  TestFactory: []
+  Test: 0
 --- !u!50 &6736575371198307349
 Rigidbody2D:
   serializedVersion: 4
@@ -154,6 +157,20 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &-6968146787626295207
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2729051209927056327}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f1d88634dc152949a3fb2a8f70aed7a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  AllNearBase: []
+  AllFactory: []
 --- !u!1 &4950582206612667568
 GameObject:
   m_ObjectHideFlags: 0
