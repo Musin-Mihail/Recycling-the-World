@@ -111,7 +111,8 @@ public class Mouse : MonoBehaviour
                                 GameObject base4 = Instantiate(Factory, target, Quaternion.identity);
                                 // base4.transform.parent = Global.Buildings.transform;
                                 base4.GetComponent<Factory>().NearBase = BBase.gameObject;
-                                base4.name = "Factory";
+                                base4.name = "Factory"+ Global.NumeFactory;
+                                Global.NumeFactory ++;
                                 Global.RedBase -= 200;
                                 Global.YellowBase -= 20;
                                 check = 0;

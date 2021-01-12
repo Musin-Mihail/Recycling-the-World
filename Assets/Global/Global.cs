@@ -36,6 +36,7 @@ public class Global : MonoBehaviour
     public GameObject LightPlayer;
     public GameObject LightPlayerF;
     public static int NumeBase = 0;
+    public static int NumeFactory = 0;
     void Awake()
     {
         BG = Resources.Load<GameObject>("BG");
@@ -55,11 +56,11 @@ public class Global : MonoBehaviour
     }
     void Update()
     {
-        if(CheckFactory==1)
-        {
-            DisableFactory.SetActive(false);
-        }
-        else if (CheckFactory==2)
+        // if(CheckFactory==1)
+        // {
+        //     DisableFactory.SetActive(false);
+        // }
+        if (CheckFactory==2)
         {
             Recycling.SetActive(true);
         }
