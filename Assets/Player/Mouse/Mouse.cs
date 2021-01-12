@@ -60,7 +60,8 @@ public class Mouse : MonoBehaviour
                                 GameObject base4 = Instantiate(Base2, target, Quaternion.identity);
                                 // base4.transform.parent = Global.Buildings.transform;
                                 base4.GetComponent<Base>().NearBase = BBase.gameObject;
-                                base4.name = "Base";
+                                base4.name = "Base"+ Global.NumeBase;
+                                Global.NumeBase ++;
                                 Global.RedBase -= 200;
                                 Global.YellowBase -= 20;
                                 check = 0;

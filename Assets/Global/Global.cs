@@ -11,9 +11,9 @@ public class Global : MonoBehaviour
     public GameObject DisableFactory;
     public static int Red;
     public static int Yellow;
-    public static int Blue;
-    public static int RedBase=200;
-    public static int YellowBase=20;
+    public static int Blue=200;
+    public static int RedBase=20000;
+    public static int YellowBase=2000;
     public static int RandomCave;
     public static GameObject Resource;
     public static GameObject Resource2;
@@ -35,6 +35,7 @@ public class Global : MonoBehaviour
     public static GameObject BG;
     public GameObject LightPlayer;
     public GameObject LightPlayerF;
+    public static int NumeBase = 0;
     void Awake()
     {
         BG = Resources.Load<GameObject>("BG");

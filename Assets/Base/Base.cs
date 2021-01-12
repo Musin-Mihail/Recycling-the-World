@@ -14,12 +14,17 @@ public class Base : MonoBehaviour
     int Red;
     int Yellow;
     public List<GameObject> ListBase = new List<GameObject>();
+    public List<GameObject> AllNearBase = new List<GameObject>();
+    public List<GameObject> AllFactory = new List<GameObject>();
+    public List<GameObject> TestFactory = new List<GameObject>();
+    public int Test = 0;
     void Start()
     {
         ListBase.Add (gameObject);
         if(NearBase !=null)
         {
             ListBase.Add (NearBase);
+            AllNearBase.Add (NearBase);
             if(NearBase.name != "MainBase")
             {
                 NextBase = NearBase.GetComponent<Base>().NearBase;
@@ -35,6 +40,11 @@ public class Base : MonoBehaviour
     }
     void Update()
     {
+        if (Test == 1)
+        {
+            Test = 0;
+            SearchFactory(TestFactory, gameObject);
+        }
         for(int i = 0; i < 2; i++)
         {
             if(Red > 0)
@@ -59,9 +69,14 @@ public class Base : MonoBehaviour
         }
         if (BuildRes == 220)
         {
+            if(NearBase.name  != "MainBase")
+            {
+                NearBase.GetComponent<Base>().AllNearBase.Add (gameObject);
+            }
             GetComponent<SpriteRenderer>().color = Color.white;
             transform.parent = Global.Buildings.transform;
             LightBase.GetComponent<Light>().enabled = true;
+            
             ReadyBuild = 1;
             BuildRes = 0;
         }
@@ -116,6 +131,33 @@ public class Base : MonoBehaviour
                 res2.tag = "Yellow2";
             }
             yield return new WaitForSeconds(0.01f);      
+        }
+    }
+    void SearchFactory(List<GameObject> test, GameObject deleted)
+    {
+        if(AllFactory.Count > 0)
+        {
+            test.Add (AllFactory[0]);
+            test.Add (gameObject);
+        }
+        else 
+        {
+            int count = 0;
+            foreach (var Nbase in AllNearBase)
+            {
+                if(Nbase.name != "MainBase")
+                {
+                    if (Nbase.name != deleted.name)
+                    {
+                        count++;
+                        Nbase.GetComponent<Base>().SearchFactory(test, gameObject);
+                    }  
+                }
+            }
+            if(count>0)
+            {
+                test.Add (gameObject);
+            }
         }
     }
     void CreatingList()

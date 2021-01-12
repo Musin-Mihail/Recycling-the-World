@@ -38,6 +38,10 @@ public class Factory : MonoBehaviour
         if (BuildRes == 220)
         {
             GetComponent<SpriteRenderer>().color = new Color32(90,40,40,255);
+            if(NearBase.name != "MainBase")
+            {
+                NearBase.GetComponent<Base>().AllFactory.Add (gameObject);
+            }
             ReadyBuild = 1;
             BuildRes = 0;
             Global.Factory = gameObject;
