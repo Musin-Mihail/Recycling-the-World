@@ -8,6 +8,7 @@ public class Mouse : MonoBehaviour
     public int check = 0;
     public GameObject Base2;
     public GameObject Factory;
+    public GameObject Magenta;
     public GameObject EmptyBase;
     public Collider2D BBase;
     public float BaseDistance;
@@ -128,6 +129,59 @@ public class Mouse : MonoBehaviour
                 }
             }  
         }
+        else if (check==3)
+        {
+//Если выбрано здание
+            EmptyBase.transform.position = target;
+            SearchBase();
+            transform.position = new Vector3 (1000, 1000, -3);
+            BaseDistance = Vector3.Distance(BBase.transform.position, EmptyBase.transform.position);
+            if(BaseDistance > 20 || Global.RedBase < 200 || Global.YellowBase < 20 || Global.BlueBase < 5)
+            {
+//Если далеко или нет ресурсов
+                EmptyBaseM.color = Color.red; 
+            }
+            else
+            {
+//Если ли место постройки занято
+                Collider2D hitColliders = Physics2D.OverlapCircle(EmptyBase.transform.position, 2.2f, layerMask3); 
+                if (hitColliders)
+                {
+                    EmptyBaseM.color = Color.yellow;
+                }
+                else
+                {
+// Если ли между новой и старой базой есть препятствие
+                    RaycastHit2D hit = Physics2D.Raycast(target, (Vector2)BBase.transform.position - target,20,layerMask3);
+                    if(hit.collider.tag == "Base")
+                    {
+                        EmptyBaseM.color = Color.green;
+                        if (Input.GetMouseButtonDown(0))
+                        {
+                            if(Global.RedBase >= 200 && Global.YellowBase >= 20 && Global.BlueBase >= 5)
+                            {
+//Постройка здания
+                                GameObject base4 = Instantiate(Magenta, target, Quaternion.identity);
+                                // base4.transform.parent = Global.Buildings.transform;
+                                base4.GetComponent<Magenta>().NearBase = BBase.gameObject;
+                                base4.name = "Magenta";
+                                // base4.name = "Factory"+ Global.NumeFactory;
+                                // Global.NumeFactory ++;
+                                Global.RedBase -= 200;
+                                Global.YellowBase -= 20;
+                                Global.BlueBase -= 5;
+                                check = 0;
+                                Global.CheckBase = 0;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        EmptyBaseM.color = Color.yellow;
+                    }
+                }
+            }  
+        }
         else
         {
 //Включение курсора обратно
@@ -157,6 +211,15 @@ public class Mouse : MonoBehaviour
         if (check == 0)
         {
             check = 2;
+            Global.CheckBase = 1;
+        }
+    }
+    public void BuildMagenta()
+    {
+// Включение с кнопки интерфейса
+        if (check == 0)
+        {
+            check = 3;
             Global.CheckBase = 1;
         }
     }

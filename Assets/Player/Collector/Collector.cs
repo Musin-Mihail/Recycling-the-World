@@ -27,7 +27,7 @@ public class Collector : MonoBehaviour
                 else if(other.tag == "Blue")
                 {
                     Destroy(other.gameObject);
-                    Global.Blue ++;
+                    Global.BlueBase ++;
                     Global.EnergyCount --;
                 }
             }

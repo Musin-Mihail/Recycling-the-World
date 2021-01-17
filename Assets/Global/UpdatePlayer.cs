@@ -25,10 +25,10 @@ public class UpdatePlayer : MonoBehaviour
     public GameObject LightPlayerF;
     public void LaserUpdate()
     {
-        if(Laser<LaserMax && Global.Blue>=LaserCostBlue)
+        if(Laser<LaserMax && Global.BlueBase>=LaserCostBlue)
         {
             Laser ++;
-            Global.Blue -= LaserCostBlue;
+            Global.BlueBase -= LaserCostBlue;
             float NewPoint = -138.0f+30.2f*(Laser-3);
             GameObject point = Instantiate(Point,transform.position, Quaternion.identity);
             point.transform.parent = LaserParent.transform;
@@ -39,11 +39,11 @@ public class UpdatePlayer : MonoBehaviour
     }
     public void StorageUpdate()
     {
-        if(storage<storageMax && Global.Blue>=storageCostBlue)
+        if(storage<storageMax && Global.BlueBase>=storageCostBlue)
         {
             storage ++;
             storageCountMax = storage*100;
-            Global.Blue -= storageCostBlue;
+            Global.BlueBase -= storageCostBlue;
             float NewPoint = -138.0f+30.2f*(storage-3);
             GameObject point = Instantiate(Point,transform.position, Quaternion.identity);
             point.transform.parent = StorageParent.transform;
@@ -59,11 +59,11 @@ public class UpdatePlayer : MonoBehaviour
     }
     public void EnergyUpdate()
     {
-        if(Energy<EnergyMax && Global.Blue>=EnergyCostBlue)
+        if(Energy<EnergyMax && Global.BlueBase>=EnergyCostBlue)
         {
             Energy ++;
             EnergyCountMax = Energy*1000;
-            Global.Blue -= EnergyCostBlue;
+            Global.BlueBase -= EnergyCostBlue;
             float NewPoint = -138.0f+30.2f*(Energy-6);
             GameObject point = Instantiate(Point,transform.position, Quaternion.identity);
             point.transform.parent = EnergyParent.transform;

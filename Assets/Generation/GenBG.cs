@@ -46,6 +46,7 @@ public class GenBG : MonoBehaviour
         if(CheckChank==null)
         {
             var block = Instantiate(Global.BG, target, transform.rotation);
+            block.transform.parent = Global.Earth.transform;
         }
     }
 }

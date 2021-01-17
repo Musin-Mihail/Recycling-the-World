@@ -24,9 +24,13 @@ public class ResourceBuild : MonoBehaviour
                     {
                         ListBase[count].GetComponent<Base>().BuildRes ++;
                     }
-                    else
+                    else if (ListBase[count].tag == "Factory")
                     {
                         ListBase[count].GetComponent<Factory>().BuildRes ++;
+                    }
+                    else if (ListBase[count].tag == "Magenta")
+                    {
+                        ListBase[count].GetComponent<Magenta>().BuildRes ++;
                     }
                     Destroy(gameObject);
                 }

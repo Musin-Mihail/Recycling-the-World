@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Factory : MonoBehaviour
+public class Magenta : MonoBehaviour
 {
     public GameObject NearBase;
     public GameObject NextBase;
@@ -15,7 +15,7 @@ public class Factory : MonoBehaviour
     public List<GameObject> MainBase = new List<GameObject>();
     void Start()
     {
-        // Global.CheckFactory = 1;
+        
         if(NearBase !=null)
         {
             GetComponent<Delivery>().AllNearBase.Add (NearBase);
@@ -34,23 +34,22 @@ public class Factory : MonoBehaviour
     }
     void Update()
     {
-        if (BuildRes == 220)
+        if (BuildRes == 225)
         {
-            GetComponent<SpriteRenderer>().color = new Color32(90,40,40,255);
+            GetComponent<SpriteRenderer>().color = Color.magenta;
             NearBase.GetComponent<Delivery>().AllNearBase.Add (gameObject);
             ReadyBuild = 1;
             BuildRes = 0;
-            // Global.Factory = gameObject;
-            Global.ListFactory.Add(gameObject);
-            Global.CheckFactory =  2;
+            Global.CheckMagenta =  2;
+            Global.ListMagenta.Add(gameObject);
         }
         if (ReadyBuild == 0)
         {
             GetComponent<SpriteRenderer>().color = Color.yellow;
         }
-        if (RecRes == 220)
+        if (RecRes == 225)
         {
-            Global.BlueBase ++;
+            Global.BaseMagenta ++;
             RecRes = 0;
             Busy = 0;
         }
@@ -59,23 +58,29 @@ public class Factory : MonoBehaviour
     {
         int Red = 200;
         int Yellow = 20;
-        while(Red > 0 || Yellow > 0)
+        int Blue = 5;
+        while(Red > 0 || Yellow > 0 || Blue > 0)
         {
-            if(Red>0)
+            if(Red > 0)
             {
                 Red --;
                 var res = Instantiate(Global.ResourceBuild, MainBase[0].transform.position, transform.rotation);
                 res.GetComponent<ResourceBuild>().ListBase = MainBase;
                 res.GetComponent<SpriteRenderer>().color = Color.red;
-                res.tag = "Red2";
             }
-            else if (Yellow>0)
+            else if (Yellow > 0)
             {
                 Yellow--;
                 var res2 = Instantiate(Global.ResourceBuild, MainBase[0].transform.position, transform.rotation);
                 res2.GetComponent<ResourceBuild>().ListBase = MainBase;
                 res2.GetComponent<SpriteRenderer>().color = Color.yellow;
-                res2.tag = "Yellow2";
+            }
+            else if (Blue > 0)
+            {
+                Blue--;
+                var res2 = Instantiate(Global.ResourceBuild, MainBase[0].transform.position, transform.rotation);
+                res2.GetComponent<ResourceBuild>().ListBase = MainBase;
+                res2.GetComponent<SpriteRenderer>().color = Color.blue;
             }
             yield return new WaitForSeconds(0.01f);      
         }
@@ -85,7 +90,8 @@ public class Factory : MonoBehaviour
         Busy = 1;
         int Red = 200;
         int Yellow = 20;
-        while(Red > 0 || Yellow > 0)
+        int Blue = 5;
+        while(Red > 0 || Yellow > 0 || Blue > 0)
         {
             if(Red>0)
             {
@@ -93,15 +99,20 @@ public class Factory : MonoBehaviour
                 var res = Instantiate(Global.ResourceRecycling, MainBase[0].transform.position, transform.rotation);
                 res.GetComponent<ResourceRecycling>().ListBase = MainBase;
                 res.GetComponent<SpriteRenderer>().color = Color.red;
-                res.tag = "Red2";
             }
-            else if (Yellow>0)
+            else if (Yellow > 0)
             {
                 Yellow--;
                 var res2 = Instantiate(Global.ResourceRecycling, MainBase[0].transform.position, transform.rotation);
                 res2.GetComponent<ResourceRecycling>().ListBase = MainBase;
                 res2.GetComponent<SpriteRenderer>().color = Color.yellow;
-                res2.tag = "Yellow2";
+            }
+            else if (Blue > 0)
+            {
+                Blue--;
+                var res2 = Instantiate(Global.ResourceRecycling, MainBase[0].transform.position, transform.rotation);
+                res2.GetComponent<ResourceRecycling>().ListBase = MainBase;
+                res2.GetComponent<SpriteRenderer>().color = Color.blue;
             }
             yield return new WaitForSeconds(0.01f);      
         }
