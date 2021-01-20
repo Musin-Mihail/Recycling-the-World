@@ -5,7 +5,6 @@ using UnityEngine;
 public class Magenta : MonoBehaviour
 {
     public GameObject NearBase;
-    public GameObject NextBase;
     public GameObject Point;
     public GameObject Beam;
     public int ReadyBuild = 0;
@@ -15,20 +14,12 @@ public class Magenta : MonoBehaviour
     public List<GameObject> MainBase = new List<GameObject>();
     void Start()
     {
-        
-        if(NearBase !=null)
-        {
-            GetComponent<Delivery>().AllNearBase.Add (NearBase);
-            if(NearBase.name != "MainBase")
-            {
-                NextBase = NearBase.GetComponent<Base>().NearBase;
-            }
-            float BaseDistance = Vector3.Distance(transform.position, NearBase.transform.position);
-            Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            Point.transform.rotation = Quaternion.LookRotation(Vector3.forward, NearBase.transform.position - Point.transform.position);
-            Beam.transform.localPosition = new Vector2(0,BaseDistance/6);
-            Beam.transform.localScale = new Vector3(Beam.transform.localScale.x,BaseDistance*2.5f,1);
-        }
+        GetComponent<SpriteRenderer>().color = Color.yellow;
+        float BaseDistance = Vector3.Distance(transform.position, NearBase.transform.position);
+        Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        Point.transform.rotation = Quaternion.LookRotation(Vector3.forward, NearBase.transform.position - Point.transform.position);
+        Beam.transform.localPosition = new Vector2(0,BaseDistance/6);
+        Beam.transform.localScale = new Vector3(Beam.transform.localScale.x,BaseDistance*2.5f,1);
         GetComponent<Delivery>().Search(MainBase, gameObject, "MainBase");
         StartCoroutine ("Build");
     }
@@ -43,14 +34,14 @@ public class Magenta : MonoBehaviour
             Global.CheckMagenta =  2;
             Global.ListMagenta.Add(gameObject);
         }
-        if (ReadyBuild == 0)
-        {
-            GetComponent<SpriteRenderer>().color = Color.yellow;
-        }
         if (RecRes == 225)
         {
-            Global.BaseMagenta ++;
+            // Global.BaseMagenta ++;
             RecRes = 0;
+            var res = Instantiate(Global.Resource2, transform.position, transform.rotation);
+            res.GetComponent<Resource>().ListBase = MainBase;
+            res.GetComponent<SpriteRenderer>().color = Color.magenta;
+            res.tag = "Magenta";
             Busy = 0;
         }
     }

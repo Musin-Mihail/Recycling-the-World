@@ -5,7 +5,6 @@ using UnityEngine;
 public class Base : MonoBehaviour
 {
     public GameObject NearBase;
-    public GameObject NextBase;
     public GameObject Point;
     public GameObject Beam;
     public int ReadyBuild = 0;
@@ -13,35 +12,20 @@ public class Base : MonoBehaviour
     public GameObject LightBase;
     int Red;
     int Yellow;
-    public List<GameObject> Factory = new List<GameObject>();
     public List<GameObject> MainBase = new List<GameObject>();
-    public int Test = 0;
     void Start()
     {
-        
-        if(NearBase !=null)
-        {
-            GetComponent<Delivery>().AllNearBase.Add (NearBase);
-            if(NearBase.name != "MainBase")
-            {
-                NextBase = NearBase.GetComponent<Base>().NearBase;
-            }
-            float BaseDistance = Vector3.Distance(transform.position, NearBase.transform.position);
-            Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            Point.transform.rotation = Quaternion.LookRotation(Vector3.forward, NearBase.transform.position - Point.transform.position);
-            Beam.transform.localPosition = new Vector2(0,BaseDistance/6);
-            Beam.transform.localScale = new Vector3(Beam.transform.localScale.x,BaseDistance*2.5f,1);
-        }
+        GetComponent<SpriteRenderer>().color = Color.yellow;
+        float BaseDistance = Vector3.Distance(transform.position, NearBase.transform.position);
+        Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        Point.transform.rotation = Quaternion.LookRotation(Vector3.forward, NearBase.transform.position - Point.transform.position);
+        Beam.transform.localPosition = new Vector2(0,BaseDistance/6);
+        Beam.transform.localScale = new Vector3(Beam.transform.localScale.x,BaseDistance*2.5f,1);
         GetComponent<Delivery>().Search(MainBase, gameObject, "MainBase");
         StartCoroutine ("Build");
     }
     void Update()
     {
-        if (Test == 1)
-        {
-            Test = 0;
-            GetComponent<Delivery>().Search(Factory, gameObject, "Factory");
-        }
         for(int i = 0; i < 2; i++)
         {
             if(Red > 0)
@@ -57,8 +41,7 @@ public class Base : MonoBehaviour
             {
                 Yellow--;
                 var res2 = Instantiate(Global.Resource2, transform.position, transform.rotation);
-                res2.transform.position = new Vector3 
-                (Random.Range(res2.transform.position.x-0.3f,res2.transform.position.x+0.3f),Random.Range(res2.transform.position.y-0.3f,res2.transform.position.y+0.3f),res2.transform.position.z);
+                res2.transform.position = new Vector3 (Random.Range(res2.transform.position.x-0.3f,res2.transform.position.x+0.3f),Random.Range(res2.transform.position.y-0.3f,res2.transform.position.y+0.3f),res2.transform.position.z);
                 res2.GetComponent<SpriteRenderer>().color = Color.yellow;
                 res2.GetComponent<Resource>().ListBase = MainBase;
                 res2.tag = "Yellow2";
@@ -72,10 +55,6 @@ public class Base : MonoBehaviour
             LightBase.GetComponent<Light>().enabled = true;
             ReadyBuild = 1;
             BuildRes = 0;
-        }
-        if (ReadyBuild == 0)
-        {
-            GetComponent<SpriteRenderer>().color = Color.yellow;
         }
     }
     private void OnTriggerStay2D(Collider2D other)

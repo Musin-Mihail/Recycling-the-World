@@ -61,6 +61,7 @@ public class Mouse : MonoBehaviour
                                 GameObject base4 = Instantiate(Base2, target, Quaternion.identity);
                                 // base4.transform.parent = Global.Buildings.transform;
                                 base4.GetComponent<Base>().NearBase = BBase.gameObject;
+                                base4.GetComponent<Delivery>().AllNearBase.Add (BBase.gameObject);
                                 base4.name = "Base"+ Global.NumeBase;
                                 Global.NumeBase ++;
                                 Global.RedBase -= 200;
@@ -112,6 +113,7 @@ public class Mouse : MonoBehaviour
                                 GameObject base4 = Instantiate(Factory, target, Quaternion.identity);
                                 // base4.transform.parent = Global.Buildings.transform;
                                 base4.GetComponent<Factory>().NearBase = BBase.gameObject;
+                                base4.GetComponent<Delivery>().AllNearBase.Add (BBase.gameObject);
                                 base4.name = "Factory";
                                 // base4.name = "Factory"+ Global.NumeFactory;
                                 // Global.NumeFactory ++;
@@ -164,6 +166,7 @@ public class Mouse : MonoBehaviour
                                 GameObject base4 = Instantiate(Magenta, target, Quaternion.identity);
                                 // base4.transform.parent = Global.Buildings.transform;
                                 base4.GetComponent<Magenta>().NearBase = BBase.gameObject;
+                                base4.GetComponent<Delivery>().AllNearBase.Add (BBase.gameObject);
                                 base4.name = "Magenta";
                                 // base4.name = "Factory"+ Global.NumeFactory;
                                 // Global.NumeFactory ++;

@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
 public class Delivery : MonoBehaviour
 {
     public List<GameObject> AllNearBase = new List<GameObject>();
@@ -11,26 +10,9 @@ public class Delivery : MonoBehaviour
         {
             if (Nbase.name == name)
             {
-                if (name == "Factory")
-                {
-                    if(Nbase.GetComponent<Factory>().Busy == 0)
-                    {
-                        test.Add (Nbase);
-                        test.Add (gameObject);
-                        Nbase.GetComponent<Factory>().Busy = 1;
-                        return;
-                    }
-                    else
-                    {
-                        continue;
-                    }
-                }
-                else
-                {
-                    test.Add (Nbase);
-                    test.Add (gameObject);
-                    return;
-                }
+                test.Add (Nbase);
+                test.Add (gameObject);
+                return;
             }          
         }
         foreach (var Nbase in AllNearBase)

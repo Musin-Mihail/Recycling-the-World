@@ -10,8 +10,7 @@ public class Global : MonoBehaviour
     public static int CheckMagenta = 0;
     public GameObject RecyclingBlue2;
     public GameObject RecyclingMageta2;
-    public GameObject DisableFactory;
-    public static int Red;
+    public static int Red = 5;
     public static int Yellow;
     public static int BaseMagenta;
     public static int RedBase = 20000;
@@ -23,7 +22,6 @@ public class Global : MonoBehaviour
     public static GameObject ResourceBuild;
     public static GameObject ResourceRecycling;
     public static GameObject Buildings;
-    public static Vector3 MainBase;
     public static GameObject Chank;
     public static GameObject Chank2;
     public static int EnergyCount = 5000;
@@ -33,13 +31,11 @@ public class Global : MonoBehaviour
     public static GameObject Earth;
     public static GameObject Cave;
     public static GameObject Enemy;
-    public static GameObject Factory;
     public static GameObject EnemyStor;
     public static GameObject BG;
     public GameObject LightPlayer;
     public GameObject LightPlayerF;
     public static int NumeBase = 0;
-    public static int NumeFactory = 0;
     public static List<GameObject> ListFactory = new List<GameObject>();
     public static List<GameObject> ListMagenta = new List<GameObject>();
     void Awake()
