@@ -117,7 +117,7 @@ public class Global : MonoBehaviour
                 {
                     RedBase -=200;
                     YellowBase -=20;
-                    StartCoroutine(Factory2.GetComponent<Factory>().Recycling());
+                    Factory2.GetComponent<Factory>().Recycling();
                     break;
                 }
             }
@@ -134,7 +134,7 @@ public class Global : MonoBehaviour
                     RedBase -=200;
                     YellowBase -=20;
                     BlueBase -=5;
-                    StartCoroutine(Magenta2.GetComponent<Magenta>().Recycling());
+                    Magenta2.GetComponent<Magenta>().Recycling();
                     break;
                 }
             }
