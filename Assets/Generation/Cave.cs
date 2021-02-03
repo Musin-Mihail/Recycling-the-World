@@ -30,6 +30,7 @@ public class Cave : MonoBehaviour
 //Генерация пещер
         PerlinNoiseCave = Mathf.PerlinNoise((transform.position.x+Global.RandomCave)*noiseScale, (transform.position.y+Global.RandomCave)*noiseScale);
         float fff = threshold+transform.localScale.x/10;
+        Debug.Log( PerlinNoiseCave + " - " + fff);
         if(PerlinNoiseCave>fff)
         {
             Destroy(gameObject);

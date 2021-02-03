@@ -5,7 +5,7 @@ using UnityEngine;
 public class Movement : MonoBehaviour
 {
     //Перемещение персонажем
-    float speed;
+    public float speed;
     Rigidbody2D m_Rigidbody;
     void Start()
 	{

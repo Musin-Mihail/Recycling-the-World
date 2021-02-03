@@ -8743,7 +8743,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   RecyclingBlue2: {fileID: 843564718}
   RecyclingMageta2: {fileID: 1280536202}
-  DisableFactory: {fileID: 758004581}
   LightPlayer: {fileID: 650722845}
   LightPlayerF: {fileID: 2093027735}
 --- !u!114 &1956789935
@@ -9861,6 +9860,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a571e02db6de8af4aa051c8f5ea497c4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ChanceGold: 0
+  ChanceSilver: 0
+  ChanceRes3: 0
 --- !u!1 &5505795592833296960
 GameObject:
   m_ObjectHideFlags: 0
@@ -9880,7 +9882,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &6071813797888229546
 MonoBehaviour:
   m_ObjectHideFlags: 0

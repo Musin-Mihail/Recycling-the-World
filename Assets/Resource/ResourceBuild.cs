@@ -20,17 +20,20 @@ public class ResourceBuild : MonoBehaviour
                 }
                 else
                 {
-                    if(ListBase[count].tag == "Base")
+                    if(gameObject.name == "EndRes")
                     {
-                        ListBase[count].GetComponent<Base>().BuildRes ++;
-                    }
-                    else if (ListBase[count].tag == "Factory")
-                    {
-                        ListBase[count].GetComponent<Factory>().BuildRes ++;
-                    }
-                    else if (ListBase[count].tag == "Magenta")
-                    {
-                        ListBase[count].GetComponent<Magenta>().BuildRes ++;
+                        if(ListBase[count].tag == "Base")
+                        {
+                        ListBase[count].GetComponent<Base>().Build();
+                        }
+                        else if (ListBase[count].tag == "Factory")
+                        {
+                        ListBase[count].GetComponent<Factory>().Build();
+                        }
+                        else if (ListBase[count].tag == "Magenta")
+                        {
+                        ListBase[count].GetComponent<Magenta>().Build();
+                        }
                     }
                     Destroy(gameObject);
                 }

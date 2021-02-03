@@ -82,17 +82,22 @@ public class Global : MonoBehaviour
         {
             EnergyCount = UpdatePlayer.EnergyCountMax;
         }
-        if(EnergyCount<500)
+        if(EnergyCount <= 0)
+        {
+            LightPlayer.GetComponent<Light>().intensity = 0.5f;
+            LightPlayerF.GetComponent<Light>().intensity = 0.5f;
+        }
+        else if(EnergyCount < 500)
         {
             LightPlayer.GetComponent<Light>().intensity = Random.Range(0.0f,1.0f);
             LightPlayerF.GetComponent<Light>().intensity = Random.Range(0.0f,1.0f);
         }
-        else if(EnergyCount<1000)
+        else if(EnergyCount < 1000)
         {
             LightPlayer.GetComponent<Light>().intensity = 1;
             LightPlayerF.GetComponent<Light>().intensity = 1;
         }
-        else if(EnergyCount<2000)
+        else if(EnergyCount < 2000)
         {
             LightPlayer.GetComponent<Light>().intensity = 2;
             LightPlayerF.GetComponent<Light>().intensity = 2;

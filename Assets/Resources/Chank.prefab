@@ -197,6 +197,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a571e02db6de8af4aa051c8f5ea497c4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ChanceYellow: 0
+  ChanceRed: 0
+  ChanceRes3: 0
 --- !u!50 &-6394093954501445138
 Rigidbody2D:
   serializedVersion: 4
@@ -346,7 +349,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3647381998704861247, guid: 1a8687a618dc9be47b697f9372118dec, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4360082280992932288, guid: 1a8687a618dc9be47b697f9372118dec, type: 3}
       propertyPath: m_RootOrder

@@ -16,8 +16,16 @@ public class Chance : MonoBehaviour
     int layerMask = 1 << 14; //Пещера
     public float DistancePlayer;
     public AudioSource DestroyRes;
+    public static float fps;
+    float PerlinNoiseCave;
+    float fff;
+    private float noiseScale = 0.06f;
+    private float threshold = 0.2f;
     void Start()
     {
+        PerlinNoiseCave = Mathf.PerlinNoise((transform.position.x+Global.RandomCave)*noiseScale, (transform.position.y+Global.RandomCave)*noiseScale);
+        fff = threshold+transform.localScale.x/25;
+
         size = transform.localScale.x;
         Target1 = new Vector3(transform.position.x-size/4,transform.position.y-size/4,transform.position.z);
         Target2 = new Vector3(transform.position.x-size/4,transform.position.y+size/4,transform.position.z);
@@ -63,6 +71,7 @@ public class Chance : MonoBehaviour
         }
         Invoke("GenCave",Random.Range(0.4f,0.7f));
     }
+
     private void OnTriggerEnter2D(Collider2D other)
     {
 //Уничтожение при попадания лазера
@@ -78,7 +87,7 @@ public class Chance : MonoBehaviour
                 GenChank(Target4);
             }  
 //Создание ресурсов после уничтожения, если блок маленький
-            else if (transform.tag == "Silver")
+            else if (transform.tag == "Red")
             {
                     Destroy(gameObject);
                     var Resource1 =  Instantiate(Global.Resource, transform.position, transform.rotation);
@@ -86,7 +95,7 @@ public class Chance : MonoBehaviour
                     Resource1.name = "Resource";
                     Resource1.tag = "Red";   
             }
-            else if (transform.tag == "Gold")
+            else if (transform.tag == "Yellow")
             {
                 float chance = Random.Range(0.0f,10.0f);
                 if(chance<=0.1f)
@@ -114,9 +123,9 @@ public class Chance : MonoBehaviour
     }
     public void GenCave()
     {
-//Генерация пещер
+ //Генерация пещер
         Collider2D hitColliders = Physics2D.OverlapBox(transform.position, new Vector2 (transform.localScale.x,transform.localScale.y), 0, layerMask);
-        if(hitColliders)
+        if(PerlinNoiseCave<fff)
         {
             if(transform.localScale.x > sizeBlock)
             {
@@ -142,29 +151,29 @@ public class Chance : MonoBehaviour
         block2.name = "Block";
         block2.transform.parent = Parent.transform;
         block2.GetComponent<Chance>().Parent = Parent;
-        if(transform.tag == "Silver")
+        if(transform.tag == "Red")
         {
             if(chance<6.0f)
             {
-                block2.tag = "Silver";
+                block2.tag = "Red";
                 ColorChank(block2);
             }
             if(chance<0.1f)
             {
-                block2.tag = "Gold";
+                block2.tag = "Yellow";
                 ColorChank(block2);
             }
         }
-        else if (transform.tag == "Gold")
+        else if (transform.tag == "Yellow")
         {
             if(chance<4.0f)
             {
-                block2.tag = "Gold";
+                block2.tag = "Yellow";
                 ColorChank(block2);
             }
             if (chance<0.1f)
             {
-                block2.tag = "Silver";
+                block2.tag = "Red";
                 ColorChank(block2);
             }
         }
@@ -173,6 +182,7 @@ public class Chance : MonoBehaviour
     {
 //Генерация пещеры
         var block2 = Instantiate(Global.Chank2, target, transform.rotation);
+        
         block2.transform.localScale = new Vector3(size/2,size/2,1);
         float chance = Random.Range(0.0f,10.0f);
         block2.name = "Block";
@@ -183,12 +193,12 @@ public class Chance : MonoBehaviour
 //Больше жёлтого чем обычно
             if(chance<8.0f)
             {
-                block2.tag = "Gold";
+                block2.tag = "Yellow";
                 ColorChank(block2);
             }
             if(chance<1.0f)
             {
-                block2.tag = "Silver";
+                block2.tag = "Red";
                 ColorChank(block2);
             }
         }
@@ -198,11 +208,11 @@ public class Chance : MonoBehaviour
 //Покраска блоков
         if(DisableColor == 0)
         {
-            if(test.tag == "Silver")
+            if(test.tag == "Red")
             {
                 test.GetComponent<SpriteRenderer>().color = Color.red;
             }
-            if(test.tag == "Gold")
+            if(test.tag == "Yellow")
             {
                 test.GetComponent<SpriteRenderer>().color = Color.yellow;
             }
