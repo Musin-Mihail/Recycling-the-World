@@ -4,21 +4,16 @@ using UnityEngine;
 
 public class Base : MonoBehaviour
 {
-    public GameObject NearBase;
-    public GameObject Point;
-    public GameObject Beam;
-    public GameObject LightBase;
-    int ReadyBuild = 0;
+    public int ReadyBuild = 0;
     int Red;
     int Yellow;
     int CostRed = 200;
     int CostYellow = 20;
     int AllCostBuild;
-    List<GameObject> MainBase = new List<GameObject>();
+    public List<GameObject> MainBase = new List<GameObject>();
     void Start()
     {
         AllCostBuild = CostRed + CostYellow;
-        BaseBuild.StartBuild(gameObject, Beam, Point, NearBase);
         GetComponent<Delivery>().Search(MainBase, gameObject, "MainBase");
         StartCoroutine (BaseBuild.Build(MainBase, Red: CostRed, Yellow: CostYellow, AllCost:AllCostBuild));
     }
@@ -45,14 +40,6 @@ public class Base : MonoBehaviour
                 }
             }
         }
-    }
-    public void Build()
-    {
-        NearBase.GetComponent<Delivery>().AllNearBase.Add (gameObject);
-        GetComponent<SpriteRenderer>().color = Color.white;
-        transform.parent = Global.Buildings.transform;
-        LightBase.GetComponent<Light>().enabled = true;
-        ReadyBuild = 1;
     }
     private void OnTriggerStay2D(Collider2D other)
     {

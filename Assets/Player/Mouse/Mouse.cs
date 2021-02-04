@@ -17,6 +17,7 @@ public class Mouse : MonoBehaviour
     int layerMask2 = 1 << 9;//База
     int layerMask3;
     public Vector2 target;
+    enum Building {Wait, Base, Factory, Magenta};
     void Start()
     {
 //Объединение слоёв
@@ -25,22 +26,30 @@ public class Mouse : MonoBehaviour
     void Update()
     {
         target = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-
-        if (check==1)
+        if (check != 0)
         {
-//Если выбрано здание
             EmptyBase.transform.position = target;
             SearchBase();
             transform.position = new Vector3 (1000, 1000, -3);
             BaseDistance = Vector3.Distance(BBase.transform.position, EmptyBase.transform.position);
-            if(BaseDistance>20 || Global.RedBase < 200 || Global.YellowBase < 20)
+            if(BaseDistance > 20)
             {
-//Если далеко или нет ресурсов
-                EmptyBaseM.color = Color.red; 
+                EmptyBaseM.color = Color.red;
             }
             else
             {
-//Если ли место постройки занято
+                if ((check == (int) Building.Base && Global.RedBase < 200 || Global.YellowBase < 20))
+                {
+                    EmptyBaseM.color = Color.red;
+                }
+                else if (check == (int) Building.Factory && Global.RedBase < 200 || Global.YellowBase < 20)
+                {
+                    EmptyBaseM.color = Color.red;
+                }
+                else if (check == (int) Building.Magenta && Global.RedBase < 200 || Global.YellowBase < 20 || Global.BlueBase < 5)
+                {
+                    EmptyBaseM.color = Color.red;
+                }
                 Collider2D hitColliders = Physics2D.OverlapCircle(EmptyBase.transform.position, 2.2f, layerMask3); 
                 if (hitColliders)
                 {
@@ -48,133 +57,32 @@ public class Mouse : MonoBehaviour
                 }
                 else
                 {
-// Если ли между новой и старой базой есть препятствие
                     RaycastHit2D hit = Physics2D.Raycast(target, (Vector2)BBase.transform.position - target,20,layerMask3);
                     if(hit.collider.tag == "Base")
                     {
                         EmptyBaseM.color = Color.green;
                         if (Input.GetMouseButtonDown(0))
                         {
-                            if(Global.RedBase >= 200 && Global.YellowBase >= 20)
+                            if(check == (int) Building.Base && Global.RedBase >= 200 && Global.YellowBase >= 20)
                             {
-//Постройка здания
-                                GameObject base4 = Instantiate(Base2, target, Quaternion.identity);
-                                // base4.transform.parent = Global.Buildings.transform;
-                                base4.GetComponent<Base>().NearBase = BBase.gameObject;
-                                base4.GetComponent<Delivery>().AllNearBase.Add (BBase.gameObject);
-                                base4.name = "Base"+ Global.NumeBase;
-                                Global.NumeBase ++;
-                                Global.RedBase -= 200;
-                                Global.YellowBase -= 20;
-                                check = 0;
-                                Global.CheckBase = 0;
+                                GameObject base4 = Instantiate(Resources.Load<GameObject>("Building"), target, Quaternion.identity);
+                                base4.name = nameof(Building.Base);
+                                BaseBuild.BuildingSelection(base4, BBase.gameObject);
+                                check = (int) Building.Wait;
                             }
-                        }
-                    }
-                    else
-                    {
-                        EmptyBaseM.color = Color.yellow;
-                    }
-                }
-            }  
-        }
-        else if (check==2)
-        {
-//Если выбрано здание
-            EmptyBase.transform.position = target;
-            SearchBase();
-            transform.position = new Vector3 (1000, 1000, -3);
-            BaseDistance = Vector3.Distance(BBase.transform.position, EmptyBase.transform.position);
-            if(BaseDistance>20 || Global.RedBase < 200 || Global.YellowBase < 20)
-            {
-//Если далеко или нет ресурсов
-                EmptyBaseM.color = Color.red; 
-            }
-            else
-            {
-//Если ли место постройки занято
-                Collider2D hitColliders = Physics2D.OverlapCircle(EmptyBase.transform.position, 2.2f, layerMask3); 
-                if (hitColliders)
-                {
-                    EmptyBaseM.color = Color.yellow;
-                }
-                else
-                {
-// Если ли между новой и старой базой есть препятствие
-                    RaycastHit2D hit = Physics2D.Raycast(target, (Vector2)BBase.transform.position - target,20,layerMask3);
-                    if(hit.collider.tag == "Base")
-                    {
-                        EmptyBaseM.color = Color.green;
-                        if (Input.GetMouseButtonDown(0))
-                        {
-                            if(Global.RedBase >= 200 && Global.YellowBase >= 20)
+                            if(check == (int) Building.Factory && Global.RedBase >= 200 && Global.YellowBase >= 20)
                             {
-//Постройка здания
-                                GameObject base4 = Instantiate(Factory, target, Quaternion.identity);
-                                // base4.transform.parent = Global.Buildings.transform;
-                                base4.GetComponent<Factory>().NearBase = BBase.gameObject;
-                                base4.GetComponent<Delivery>().AllNearBase.Add (BBase.gameObject);
-                                base4.name = "Factory";
-                                // base4.name = "Factory"+ Global.NumeFactory;
-                                // Global.NumeFactory ++;
-                                Global.RedBase -= 200;
-                                Global.YellowBase -= 20;
-                                check = 0;
-                                Global.CheckBase = 0;
+                                GameObject base4 = Instantiate(Resources.Load<GameObject>("Building"), target, Quaternion.identity);
+                                base4.name = nameof(Building.Factory);
+                                BaseBuild.BuildingSelection(base4, BBase.gameObject);
+                                check = (int) Building.Wait;
                             }
-                        }
-                    }
-                    else
-                    {
-                        EmptyBaseM.color = Color.yellow;
-                    }
-                }
-            }  
-        }
-        else if (check==3)
-        {
-//Если выбрано здание
-            EmptyBase.transform.position = target;
-            SearchBase();
-            transform.position = new Vector3 (1000, 1000, -3);
-            BaseDistance = Vector3.Distance(BBase.transform.position, EmptyBase.transform.position);
-            if(BaseDistance > 20 || Global.RedBase < 200 || Global.YellowBase < 20 || Global.BlueBase < 5)
-            {
-//Если далеко или нет ресурсов
-                EmptyBaseM.color = Color.red; 
-            }
-            else
-            {
-//Если ли место постройки занято
-                Collider2D hitColliders = Physics2D.OverlapCircle(EmptyBase.transform.position, 2.2f, layerMask3); 
-                if (hitColliders)
-                {
-                    EmptyBaseM.color = Color.yellow;
-                }
-                else
-                {
-// Если ли между новой и старой базой есть препятствие
-                    RaycastHit2D hit = Physics2D.Raycast(target, (Vector2)BBase.transform.position - target,20,layerMask3);
-                    if(hit.collider.tag == "Base")
-                    {
-                        EmptyBaseM.color = Color.green;
-                        if (Input.GetMouseButtonDown(0))
-                        {
-                            if(Global.RedBase >= 200 && Global.YellowBase >= 20 && Global.BlueBase >= 5)
+                            if(check == (int) Building.Magenta && Global.RedBase >= 200 && Global.YellowBase >= 20 && Global.BlueBase >= 5)
                             {
-//Постройка здания
-                                GameObject base4 = Instantiate(Magenta, target, Quaternion.identity);
-                                // base4.transform.parent = Global.Buildings.transform;
-                                base4.GetComponent<Magenta>().NearBase = BBase.gameObject;
-                                base4.GetComponent<Delivery>().AllNearBase.Add (BBase.gameObject);
-                                base4.name = "Magenta";
-                                // base4.name = "Factory"+ Global.NumeFactory;
-                                // Global.NumeFactory ++;
-                                Global.RedBase -= 200;
-                                Global.YellowBase -= 20;
-                                Global.BlueBase -= 5;
-                                check = 0;
-                                Global.CheckBase = 0;
+                                GameObject base4 = Instantiate(Resources.Load<GameObject>("Building"), target, Quaternion.identity);
+                                base4.name = nameof(Building.Magenta);
+                                BaseBuild.BuildingSelection(base4, BBase.gameObject);
+                                check = (int) Building.Wait;
                             }
                         }
                     }
@@ -195,35 +103,35 @@ public class Mouse : MonoBehaviour
         if (Input.GetMouseButtonDown(1))
             {
 //Отмена постройки
-                check = 0;
-                Global.CheckBase = 0;
+                check = (int) Building.Wait;
+                // Global.CheckBase = 0;
             }
     }
     public void BuildCharging()
     {
 // Включение с кнопки интерфейса
-        if (check == 0)
+        if (check == (int) Building.Wait)
         {
-            check = 1;
-            Global.CheckBase = 1;
+            check = (int) Building.Base;
+            // Global.CheckBase = 1;
         }
     }
     public void BuildFactory()
     {
 // Включение с кнопки интерфейса
-        if (check == 0)
+        if (check == (int) Building.Wait)
         {
-            check = 2;
-            Global.CheckBase = 1;
+            check = (int) Building.Factory;
+            // Global.CheckBase = 1;
         }
     }
     public void BuildMagenta()
     {
 // Включение с кнопки интерфейса
-        if (check == 0)
+        if (check == (int) Building.Wait)
         {
-            check = 3;
-            Global.CheckBase = 1;
+            check = (int) Building.Magenta;
+            // Global.CheckBase = 1;
         }
     }
     void SearchBase()

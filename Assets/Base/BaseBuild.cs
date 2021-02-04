@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class BaseBuild : MonoBehaviour
 {
+    public static GameObject Earth;
+
     public static void StartBuild(GameObject Build, GameObject Beam, GameObject Point, GameObject NearBase)
     {
         Build.GetComponent<SpriteRenderer>().color = Color.yellow;
@@ -71,6 +73,35 @@ public class BaseBuild : MonoBehaviour
                 res.name = "EndRes";
             }
             yield return new WaitForSeconds(0.01f);      
+        }
+    }
+    public static void BuildingSelection(GameObject Building, GameObject NearestBuilding)
+    {
+        Building.GetComponent<Delivery>().AllNearBase.Add (NearestBuilding);
+        Building.GetComponent<Building>().NearBase = NearestBuilding;
+        if(Building.name == "Base")
+        {
+            Building.tag = "Base";
+            Building.name = "Base" + Global.NumeBase;
+            Global.NumeBase ++;
+            Building.AddComponent<Base>();
+            Global.RedBase -= 200;
+            Global.YellowBase -= 20;
+        }
+        if(Building.name == "Factory")
+        {
+            Building.tag = "Factory";
+            Building.AddComponent<Factory>();
+            Global.RedBase -= 200;
+            Global.YellowBase -= 20;
+        }
+        if(Building.name == "Magenta")
+        {
+            Building.tag = "Magenta";
+            Building.AddComponent<Magenta>();
+            Global.RedBase -= 200;
+            Global.YellowBase -= 20;
+            Global.BlueBase -= 5;
         }
     }
 }

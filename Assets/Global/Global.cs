@@ -5,7 +5,6 @@ using UnityEngine;
 public class Global : MonoBehaviour
 {
     public static GameObject BGCave;
-    public static int CheckBase = 0;
     public static int CheckFactory = 0;
     public static int CheckMagenta = 0;
     public GameObject RecyclingBlue2;

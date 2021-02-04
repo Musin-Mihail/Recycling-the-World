@@ -5098,6 +5098,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 53ba8e57faf3a204daac6e3cdcafb901, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  speed: 0
 --- !u!50 &1034258023
 Rigidbody2D:
   serializedVersion: 4
@@ -7597,7 +7598,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!108 &1674200454
 Light:
   m_ObjectHideFlags: 0
@@ -9860,8 +9861,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a571e02db6de8af4aa051c8f5ea497c4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ChanceGold: 0
-  ChanceSilver: 0
+  ChanceYellow: 0
+  ChanceRed: 0
   ChanceRes3: 0
 --- !u!1 &5505795592833296960
 GameObject:
@@ -9882,7 +9883,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &6071813797888229546
 MonoBehaviour:
   m_ObjectHideFlags: 0
