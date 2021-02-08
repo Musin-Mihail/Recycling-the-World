@@ -12,12 +12,16 @@ public class Mouse : MonoBehaviour
     public GameObject EmptyBase;
     public Collider2D BBase;
     public float BaseDistance;
+    int CostRed;
+    int CostYellow;
+    int CostBlue;
+    int CostMagenta;
     public SpriteRenderer EmptyBaseM;
     int layerMask = 1 << 8;//Блоки
     int layerMask2 = 1 << 9;//База
     int layerMask3;
     public Vector2 target;
-    enum Building {Wait, Base, Factory, Magenta};
+    enum BuildingName {Wait, Base, Factory, Magenta};
     void Start()
     {
 //Объединение слоёв
@@ -32,24 +36,12 @@ public class Mouse : MonoBehaviour
             SearchBase();
             transform.position = new Vector3 (1000, 1000, -3);
             BaseDistance = Vector3.Distance(BBase.transform.position, EmptyBase.transform.position);
-            if(BaseDistance > 20)
+            if(BaseDistance > 20 || Global.RedBase < CostRed || Global.YellowBase < CostYellow || Global.BlueBase < CostBlue)
             {
                 EmptyBaseM.color = Color.red;
             }
             else
             {
-                if ((check == (int) Building.Base && Global.RedBase < 200 || Global.YellowBase < 20))
-                {
-                    EmptyBaseM.color = Color.red;
-                }
-                else if (check == (int) Building.Factory && Global.RedBase < 200 || Global.YellowBase < 20)
-                {
-                    EmptyBaseM.color = Color.red;
-                }
-                else if (check == (int) Building.Magenta && Global.RedBase < 200 || Global.YellowBase < 20 || Global.BlueBase < 5)
-                {
-                    EmptyBaseM.color = Color.red;
-                }
                 Collider2D hitColliders = Physics2D.OverlapCircle(EmptyBase.transform.position, 2.2f, layerMask3); 
                 if (hitColliders)
                 {
@@ -63,26 +55,12 @@ public class Mouse : MonoBehaviour
                         EmptyBaseM.color = Color.green;
                         if (Input.GetMouseButtonDown(0))
                         {
-                            if(check == (int) Building.Base && Global.RedBase >= 200 && Global.YellowBase >= 20)
+                            if( Global.RedBase >= CostRed && Global.YellowBase >= CostYellow && Global.BlueBase >= CostBlue)
                             {
                                 GameObject base4 = Instantiate(Resources.Load<GameObject>("Building"), target, Quaternion.identity);
-                                base4.name = nameof(Building.Base);
-                                BaseBuild.BuildingSelection(base4, BBase.gameObject);
-                                check = (int) Building.Wait;
-                            }
-                            if(check == (int) Building.Factory && Global.RedBase >= 200 && Global.YellowBase >= 20)
-                            {
-                                GameObject base4 = Instantiate(Resources.Load<GameObject>("Building"), target, Quaternion.identity);
-                                base4.name = nameof(Building.Factory);
-                                BaseBuild.BuildingSelection(base4, BBase.gameObject);
-                                check = (int) Building.Wait;
-                            }
-                            if(check == (int) Building.Magenta && Global.RedBase >= 200 && Global.YellowBase >= 20 && Global.BlueBase >= 5)
-                            {
-                                GameObject base4 = Instantiate(Resources.Load<GameObject>("Building"), target, Quaternion.identity);
-                                base4.name = nameof(Building.Magenta);
-                                BaseBuild.BuildingSelection(base4, BBase.gameObject);
-                                check = (int) Building.Wait;
+                                base4.name = ((BuildingName)check).ToString();
+                                BuildingSelection(base4, BBase.gameObject);
+                                check = (int) BuildingName.Wait;
                             }
                         }
                     }
@@ -103,35 +81,70 @@ public class Mouse : MonoBehaviour
         if (Input.GetMouseButtonDown(1))
             {
 //Отмена постройки
-                check = (int) Building.Wait;
-                // Global.CheckBase = 0;
+                check = (int) BuildingName.Wait;
+                CostRed = 0;
+                CostYellow = 0;
+                CostBlue = 0;
             }
     }
     public void BuildCharging()
     {
 // Включение с кнопки интерфейса
-        if (check == (int) Building.Wait)
+        if (check == (int) BuildingName.Wait)
         {
-            check = (int) Building.Base;
-            // Global.CheckBase = 1;
+            check = (int) BuildingName.Base;
+            CostRed = 200;
+            CostYellow = 20;
         }
     }
     public void BuildFactory()
     {
 // Включение с кнопки интерфейса
-        if (check == (int) Building.Wait)
+        if (check == (int) BuildingName.Wait)
         {
-            check = (int) Building.Factory;
-            // Global.CheckBase = 1;
+            check = (int) BuildingName.Factory;
+            CostRed = 200;
+            CostYellow = 20;
         }
     }
     public void BuildMagenta()
     {
 // Включение с кнопки интерфейса
-        if (check == (int) Building.Wait)
+        if (check == (int) BuildingName.Wait)
         {
-            check = (int) Building.Magenta;
-            // Global.CheckBase = 1;
+            check = (int) BuildingName.Magenta;
+            CostRed = 200;
+            CostYellow = 20;
+            CostBlue = 5;
+        }
+    }
+    public static void BuildingSelection(GameObject Building, GameObject NearestBuilding)
+    {
+        Building.GetComponent<Delivery>().AllNearBase.Add (NearestBuilding);
+        Building.GetComponent<Building>().NearBase = NearestBuilding;
+        if(Building.name == "Base")
+        {
+            Building.tag = "Base";
+            Building.name = "Base" + Global.NumeBase;
+            Global.NumeBase ++;
+            Building.AddComponent<Base>();
+            Global.RedBase -= 200;
+            Global.YellowBase -= 20;
+        }
+        if(Building.name == "Factory")
+        {
+            Building.tag = "Factory";
+            Building.AddComponent<Factory>();
+            Global.RedBase -= 200;
+            Global.YellowBase -= 20;
+        }
+        if(Building.name == "Magenta")
+        {
+            Building.tag = "Magenta";
+            Building.AddComponent<Magenta>();
+            Global.RedBase -= 200;
+            Global.YellowBase -= 20;
+            Global.BlueBase -= 5;
         }
     }
     void SearchBase()
