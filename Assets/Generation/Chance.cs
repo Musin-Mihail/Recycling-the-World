@@ -75,7 +75,7 @@ public class Chance : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D other)
     {
 //Уничтожение при попадания лазера
-        if(other.tag == "Laser" && check2 == 1)
+        if(other.tag == "Laser" || other.name == "Body" && check2 == 1)
         {
             check2 = 0;
             if(transform.localScale.x > sizeBlock) 
@@ -85,7 +85,7 @@ public class Chance : MonoBehaviour
                 GenChank(Target2);
                 GenChank(Target3);
                 GenChank(Target4);
-            }  
+            } 
 //Создание ресурсов после уничтожения, если блок маленький
             else if (transform.tag == "Red")
             {
@@ -138,7 +138,7 @@ public class Chance : MonoBehaviour
             else
             {
                 Destroy(gameObject);
-                GenEnemy(transform.position);
+                // GenEnemy(transform.position);
             }
         }
     }

@@ -9,7 +9,7 @@ public class Global : MonoBehaviour
     public static int CheckMagenta = 0;
     public GameObject RecyclingBlue2;
     public GameObject RecyclingMageta2;
-    public static int Red = 5;
+    public static int Red = 190;
     public static int Yellow;
     public static int BaseMagenta;
     public static int RedBase = 20000;

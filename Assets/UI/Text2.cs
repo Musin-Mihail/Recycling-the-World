@@ -16,7 +16,7 @@ public class Text2 : MonoBehaviour
     public Text Storage;
     public GameObject Win;
     public GameObject UpdateStat;
-    int Check = 1;
+    // int Check = 1;
 
     void Update()
     {
@@ -29,11 +29,11 @@ public class Text2 : MonoBehaviour
         MagentaBase.text = ": " + Global.BaseMagenta;
         Energy.text = Global.EnergyCount + " / " + UpdatePlayer.EnergyCountMax;
         Storage.text = Global.storageCount + " / " + UpdatePlayer.storageCountMax;
-        if(Global.BlueBase>=20 && Check == 1)
-        {
-            Win.SetActive(true);
-            Check = 0;
-        }
+        // if(Global.BlueBase>=20 && Check == 1)
+        // {
+        //     Win.SetActive(true);
+        //     Check = 0;
+        // }
     }
     public void WinDisable()
     {
