@@ -213,6 +213,7 @@ MonoBehaviour:
   ChanceYellow: 0
   ChanceRed: 0
   ChanceRes3: 0
+  chance: 0
 --- !u!50 &-6394093954501445138
 Rigidbody2D:
   serializedVersion: 4

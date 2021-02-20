@@ -4,6 +4,12 @@ using UnityEngine;
 
 public class MainBase : MonoBehaviour
 {
+    void Start()
+    {
+        Global.BuildingsList.Add(gameObject);
+        Global.BuildingsDiger.Add(gameObject);
+        Global.BuildingsCharge.Add(gameObject);
+    }
     private void OnTriggerStay2D(Collider2D other)
     {
         if(other.tag == "Player")

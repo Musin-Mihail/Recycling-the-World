@@ -10,7 +10,7 @@ public class Mouse : MonoBehaviour
     public GameObject Factory;
     public GameObject Magenta;
     public GameObject EmptyBase;
-    public Collider2D BBase;
+    public GameObject BBase;
     public float BaseDistance;
     int CostRed;
     int CostYellow;
@@ -150,10 +150,11 @@ public class Mouse : MonoBehaviour
     void SearchBase()
     {
 //Поиск ближайшей базы
-        Collider2D[] hitColliders = Global.Buildings.GetComponentsInChildren<Collider2D>();
+        // Collider2D[] hitColliders = Global.Buildings.GetComponentsInChildren<Collider2D>();
+
         float distance = Mathf.Infinity;
         Vector3 position = EmptyBase.transform.position;
-        foreach (Collider2D go in hitColliders)
+        foreach (GameObject go in Global.BuildingsList)
         {
             if(go.tag == "Base")
                 {

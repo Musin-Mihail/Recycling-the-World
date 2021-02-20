@@ -16,8 +16,9 @@ public class GenChank : MonoBehaviour
     public float ChanceYellow = 0;
     public float ChanceRed = 0;
     public float ChanceRes3 = 0;
+    public float chance;
     float CorrectChance;
-    int DisableColor = 0;
+    int DisableColor = 1;
     float DistantGen = 50;
     void Start()
     {
@@ -27,34 +28,34 @@ public class GenChank : MonoBehaviour
         Target4 = new Vector2(transform.position.x,transform.position.y+size);
 //Корректировка шанса появления ресурсов от глубины
         var Deep = -gameObject.transform.position.y;
-        var DistSpawn1 = 200;
-        var DistSpawn2 = 400;
-        var DistSpawn3 = 600;
+        var DistSpawn1 = 50;
+        var DistSpawn2 = 150;
+        var DistSpawn3 = 250;
         if(Deep < DistSpawn3)
         {
-            ChanceRes3 = (Deep-(DistSpawn3-250))/20;
+            ChanceRes3 = (Deep-(DistSpawn3-100))/20;
         }
         else
         {
-            ChanceRes3 -= (Deep - DistSpawn3-250)/20;
+            ChanceRes3 -= (Deep - DistSpawn3-100)/20;
         }
 
         if(Deep < DistSpawn2)
         {
-            ChanceYellow = (Deep-(DistSpawn2-250))/20;
+            ChanceYellow = (Deep-(DistSpawn2-100))/20;
         }
         else
         {
-            ChanceYellow -= (Deep - DistSpawn2-250)/20;
+            ChanceYellow -= (Deep - DistSpawn2-100)/20;
         }
 
         if(Deep < DistSpawn1)
         {
-            ChanceRed = (Deep-(DistSpawn1-250))/20;
+            ChanceRed = (Deep-(DistSpawn1-100))/20;
         }
         else
         {
-            ChanceRed -= (Deep - DistSpawn1 - 250)/20;
+            ChanceRed -= (Deep - DistSpawn1 - 100)/20;
         }
     }
     void Update()
@@ -84,7 +85,7 @@ public class GenChank : MonoBehaviour
         {
             var block = Instantiate(Global.Chank, target, transform.rotation);
             block.name = "Chank";
-            float chance = Random.Range(0.0f,10.0f);
+            chance = Random.Range(0.0f,10.0f);
             
             if(chance<ChanceRed)
             {
@@ -108,17 +109,17 @@ public class GenChank : MonoBehaviour
     {
         if(DisableColor == 0)
         {
-            if(test.GetComponent<Chank>().Child.tag == "Silver")
+            if(test.GetComponent<Chank>().Child.tag == "Red")
             {
                 test.GetComponent<Chank>().Child.GetComponent<SpriteRenderer>().color = Color.red;
             }
-            else if(test.GetComponent<Chank>().Child.tag == "Gold")
+            else if(test.GetComponent<Chank>().Child.tag == "Yellow")
             {
                 test.GetComponent<Chank>().Child.GetComponent<SpriteRenderer>().color = Color.yellow;
             }
             else if(test.GetComponent<Chank>().Child.tag == "Res3")
             {
-                test.GetComponent<Chank>().Child.GetComponent<SpriteRenderer>().color = Color.white;
+                test.GetComponent<Chank>().Child.GetComponent<SpriteRenderer>().color = Color.blue;
             }
         }
     }

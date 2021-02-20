@@ -21,6 +21,7 @@ public class Chance : MonoBehaviour
     float fff;
     private float noiseScale = 0.06f;
     private float threshold = 0.2f;
+    public float chance;
     void Start()
     {
         PerlinNoiseCave = Mathf.PerlinNoise((transform.position.x+Global.RandomCave)*noiseScale, (transform.position.y+Global.RandomCave)*noiseScale);
@@ -147,10 +148,11 @@ public class Chance : MonoBehaviour
 //Генерация блоков
         var block2 = Instantiate(Global.Chank2, target, transform.rotation);
         block2.transform.localScale = new Vector3(size/2,size/2,1);
-        float chance = Random.Range(0.0f,10.0f);
         block2.name = "Block";
         block2.transform.parent = Parent.transform;
         block2.GetComponent<Chance>().Parent = Parent;
+        chance = Random.Range(0.0f,10.0f);
+        
         if(transform.tag == "Red")
         {
             if(chance<6.0f)
@@ -184,10 +186,11 @@ public class Chance : MonoBehaviour
         var block2 = Instantiate(Global.Chank2, target, transform.rotation);
         
         block2.transform.localScale = new Vector3(size/2,size/2,1);
-        float chance = Random.Range(0.0f,10.0f);
+        
         block2.name = "Block";
         block2.transform.parent = Parent.transform;
         block2.GetComponent<Chance>().Parent = Parent;
+        float chance = Random.Range(0.0f,10.0f);
         if(block2.transform.localScale.x<=1.0f)
         {
 //Больше жёлтого чем обычно
@@ -200,6 +203,35 @@ public class Chance : MonoBehaviour
             {
                 block2.tag = "Red";
                 ColorChank(block2);
+            }
+        }
+        else
+        {
+            if(transform.tag == "Red")
+            {
+                if(chance<6.0f)
+                {
+                    block2.tag = "Red";
+                    ColorChank(block2);
+                }
+                if(chance<0.1f)
+                {
+                    block2.tag = "Yellow";
+                    ColorChank(block2);
+                }
+            }
+            else if (transform.tag == "Yellow")
+            {
+                if(chance<4.0f)
+                {
+                    block2.tag = "Yellow";
+                    ColorChank(block2);
+                }
+                if (chance<0.1f)
+                {
+                    block2.tag = "Red";
+                    ColorChank(block2);
+                }
             }
         }
     }

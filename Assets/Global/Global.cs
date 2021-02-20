@@ -20,7 +20,11 @@ public class Global : MonoBehaviour
     public static GameObject Resource2;
     public static GameObject ResourceBuild;
     public static GameObject ResourceRecycling;
-    public static GameObject Buildings;
+    // public static GameObject Buildings;
+    public static List<GameObject> BuildingsList;
+    public static List<GameObject> BuildingsDiger;
+    public static List<GameObject> BuildingsEmpty;
+    public static List<GameObject> BuildingsCharge;
     public static GameObject Chank;
     public static GameObject Chank2;
     public static int EnergyCount = 5000;
@@ -35,10 +39,19 @@ public class Global : MonoBehaviour
     public GameObject LightPlayer;
     public GameObject LightPlayerF;
     public static int NumeBase = 0;
+    public static float _maxMoveX = 0;
+    public static float _maxMoveY = 0;
+    public static float _minMoveX = 0;
+    public static float _minMoveY = 0;
+    public Vector2 _rangeX;
+    public Vector2 _rangeY;
     public static List<GameObject> ListFactory = new List<GameObject>();
     public static List<GameObject> ListMagenta = new List<GameObject>();
     void Awake()
     {
+        BuildingsList = new List<GameObject>();
+        BuildingsDiger = new List<GameObject>();
+        BuildingsCharge = new List<GameObject>();
         BG = Resources.Load<GameObject>("BG");
         ResourceRecycling = Resources.Load<GameObject>("ResourceRecycling");
         ResourceBuild = Resources.Load<GameObject>("ResourceBuild");
@@ -49,13 +62,15 @@ public class Global : MonoBehaviour
         RandomCave = Random.Range(500,1500);
         Resource = Resources.Load<GameObject>("Resource");
         Resource2 = Resources.Load<GameObject>("Resource3");
-        Buildings = GameObject.Find("Buildings");
+        // Buildings = GameObject.Find("Buildings");
         Chank2 = Resources.Load<GameObject>("Square");
         Chank = Resources.Load<GameObject>("Chank");
         Cave = Resources.Load<GameObject>("Cave");
     }
     void Update()
     {
+        _rangeX = new Vector2(_minMoveX, _maxMoveX);
+        _rangeY = new Vector2(_minMoveY, _maxMoveY);
         if (CheckFactory==2)
         {
             RecyclingBlue2.SetActive(true);
@@ -127,7 +142,7 @@ public class Global : MonoBehaviour
             }
         }
     }
-        public void RecyclingMageta()
+    public void RecyclingMageta()
     {
         if(RedBase>=200 && YellowBase>=20 && BlueBase>=5)
         {
@@ -143,5 +158,36 @@ public class Global : MonoBehaviour
                 }
             }
         }
+    }
+    public static void NewMaxPosition (float x, float y)
+    {
+        if(x > 0)
+        {
+            if(x > _maxMoveX)
+            {
+                _maxMoveX = x;
+            }
+        }
+        else
+        {
+            if(x < _minMoveX)
+            {
+                _minMoveX = x;
+            }
+        }
+        if(y > 0)
+        {
+            if(y > _maxMoveY)
+            {
+                _maxMoveY = y;
+            }
+        }
+        else
+        {
+            if(y < _minMoveY)
+            {
+                _minMoveY = y; 
+            }
+        } 
     }
 }

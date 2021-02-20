@@ -5,7 +5,7 @@ using UnityEngine;
 public class DisableUpdate : MonoBehaviour
 {
 //Отключение строительства и улучшения, когда база далеко
-    Collider2D BBase;
+    GameObject BBase;
     float BaseDistance;
     public GameObject DisableDistant;
     
@@ -34,10 +34,10 @@ public class DisableUpdate : MonoBehaviour
 //Поиск ближайшего здания
     void SearchBase()
     {
-        Collider2D[] hitColliders = Global.Buildings.GetComponentsInChildren<Collider2D>();
+        // Collider2D[] hitColliders = Global.Buildings.GetComponentsInChildren<Collider2D>();
         float distance = Mathf.Infinity;
         Vector3 position = transform.position;
-        foreach (Collider2D go in hitColliders)
+        foreach (GameObject go in Global.BuildingsList)
         {
             float curDistance = Vector3.Distance(go.transform.position, position);
             if (curDistance < distance)

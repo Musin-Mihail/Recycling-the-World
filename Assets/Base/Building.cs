@@ -25,7 +25,13 @@ public class Building : MonoBehaviour
     public void Build()
     {
         NearBase.GetComponent<Delivery>().AllNearBase.Add (gameObject);
-        transform.parent = Global.Buildings.transform;
+        // transform.parent = Global.Buildings.transform;
+        Global.BuildingsList.Add(gameObject);
+        Global.BuildingsDiger.Add(gameObject);
+        if(gameObject.tag == "Base")
+        {
+            Global.BuildingsCharge.Add(gameObject);
+        }
         LightBase.GetComponent<Light>().enabled = true;
         if(gameObject.tag == "Base")
         {
@@ -44,5 +50,6 @@ public class Building : MonoBehaviour
             Global.CheckMagenta = 2;
             Global.ListMagenta.Add (gameObject);
         }
+        Global.NewMaxPosition(transform.position.x, transform.position.y);
     }
 }
