@@ -5,14 +5,17 @@ using UnityEngine;
 public class Base : MonoBehaviour
 {
     public int ReadyBuild = 0;
-    int Red;
-    int Yellow;
+    public int Red;
+    public int Yellow;
+    public int Blue;
     int CostRed = 200;
     int CostYellow = 20;
     int AllCostBuild;
+    public int busy;
     public List<GameObject> MainBase = new List<GameObject>();
     void Start()
     {
+        busy = 0;
         AllCostBuild = CostRed + CostYellow;
         GetComponent<Delivery>().Search(MainBase, gameObject, "MainBase");
         StartCoroutine (BaseBuild.Build(MainBase, Red: CostRed, Yellow: CostYellow, AllCost:AllCostBuild));
@@ -21,7 +24,7 @@ public class Base : MonoBehaviour
     {
         for(int i = 0; i < 2; i++)
         {
-            if(Red > 0 || Yellow > 0)
+            if(Red > 0 || Yellow > 0 || Blue > 0)
             {
                 var res = Instantiate(Global.Resource2, transform.position, transform.rotation);
                 res.transform.position = new Vector2 (Random.Range(res.transform.position.x-0.3f,res.transform.position.x+0.3f),Random.Range(res.transform.position.y-0.3f,res.transform.position.y+0.3f));
@@ -38,29 +41,12 @@ public class Base : MonoBehaviour
                     res.GetComponent<SpriteRenderer>().color = Color.yellow;
                     res.tag = "Yellow2";
                 }
-            }
-        }
-    }
-    private void OnTriggerStay2D(Collider2D other)
-    {
-        if(other.tag == "Player" && ReadyBuild == 1)
-        {
-            for(int i = 0; i < Global.storage; i++)
-            {
-                if(Global.Red > 0)
+                else if(Blue > 0)
                 {
-                    Red ++;
-                    Global.Red --;
+                    Blue--;
+                    res.GetComponent<SpriteRenderer>().color = Color.blue;
+                    res.tag = "Blue";
                 }
-                else if(Global.Yellow > 0)
-                {
-                    Yellow++;
-                    Global.Yellow --;
-                }
-            }
-            if (Global.EnergyCount<UpdatePlayer.EnergyCountMax)
-            {
-                Global.EnergyCount +=50;
             }
         }
     }

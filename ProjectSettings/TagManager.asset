@@ -21,6 +21,8 @@ TagManager:
   - Factory
   - Magenta
   - Res3
+  - MainBase
+  - Dron
   layers:
   - Default
   - TransparentFX

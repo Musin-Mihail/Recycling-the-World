@@ -10,27 +10,27 @@ public class MainBase : MonoBehaviour
         Global.BuildingsDiger.Add(gameObject);
         Global.BuildingsCharge.Add(gameObject);
     }
-    private void OnTriggerStay2D(Collider2D other)
-    {
-        if(other.tag == "Player")
-        {
-            if (Global.EnergyCount<UpdatePlayer.EnergyCountMax)
-            {
-                Global.EnergyCount +=50;
-            }
-            for(int i = 0; i < Global.storage; i++)
-            {
-                if(Global.Red > 0)
-                {
-                    Global.Red --;
-                    Global.RedBase ++;
-                }
-                else if(Global.Yellow > 0)
-                {
-                    Global.Yellow --;
-                    Global.YellowBase ++;
-                }
-            }
-        }
-    }
+    // private void OnTriggerStay2D(Collider2D other)
+    // {
+    //     if(other.tag == "Dron")
+    //     {
+    //         if(other.transform.position == transform.position)
+    //         {
+    //             Debug.Log(other.tag);
+    //             for(int i = 0; i < Global.storage; i++)
+    //             {
+    //                 if(Global.Red > 0)
+    //                 {
+    //                     Global.Red --;
+    //                     Global.RedBase ++;
+    //                 }
+    //                 else if(Global.Yellow > 0)
+    //                 {
+    //                     Global.Yellow --;
+    //                     Global.YellowBase ++;
+    //                 }
+    //             }
+    //         }
+    //     }
+    // }
 }
