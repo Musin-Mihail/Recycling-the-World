@@ -10,6 +10,7 @@ public class AutoMove : MonoBehaviour
     int layerMask = 1 << 8; //Block
     int layerMask2 = 1 << 17; //TopBlock
     int layerMask3;
+    // int layerMask4 = 1 << 18; //Dron
     int busy = 1;
     int _storagefull = 0;
     int _energyfull = 1;
@@ -43,74 +44,82 @@ public class AutoMove : MonoBehaviour
             busy = 1;
             SearchBlock();
         }
-        if (_storagefull == 1 || _energyfull == 0)
+        if (_storagefull == 1 || _energyfull == 0 )
         {
-            transform.position = Vector2.MoveTowards(transform.position,_target.transform.position, 0.3f);
-            _Hand.transform.rotation = Quaternion.LookRotation(Vector3.forward, _target.transform.position - _Hand.transform.position);
-            if(transform.position == _target.transform.position)
+            if(_target == null)
             {
-                if(_energy < UpdatePlayer.EnergyCountMax)
+                SearchNearestBase();
+            }
+            // else if (_target.GetComponent<Busy>()._busy == 1)
+            // {
+            //     SearchNearestBase();
+            // }
+            else
+            {
+                _Rigidbody.AddForce((_target.transform.position - transform.position) * 0.001f);
+                // transform.position = Vector2.MoveTowards(transform.position,_target.transform.position, 0.3f);
+                _Hand.transform.rotation = Quaternion.LookRotation(Vector3.forward, _target.transform.position - _Hand.transform.position);
+                if(Vector3.Distance(transform.position, _target.transform.position) < 0.2f)
                 {
-                    _energy +=50;
-                }                
-                else if(_energyfull == 0)
-                {
-                    _energyfull = 1;
-                    GetComponent<CircleCollider2D>().isTrigger = false;
-                }
-                if(_target.name == "MainBase")
-                {
-                    for(int i = 0; i < Global.storage; i++)
+                    if(_energy < UpdatePlayer.EnergyCountMax)
                     {
-                        if(_red > 0)
+                        _energy +=50;
+                    }                
+                    else if(_energyfull == 0)
+                    {
+                        _energyfull = 1;
+                        GetComponent<CircleCollider2D>().isTrigger = false;
+                    }
+                    if(_target.name == "MainBase")
+                    {
+                        for(int i = 0; i < Global.storage; i++)
                         {
-                            _red --;
-                            Global.RedBase ++;
-                        }
-                        else if(_yellow > 0)
-                        {
-                            _yellow --;
-                            Global.YellowBase ++;
-                        }
-                        else if(_blue > 0)
-                        {
-                            _blue --;
-                            Global.BlueBase ++;
+                            if(_red > 0)
+                            {
+                                _red --;
+                                Global.RedBase ++;
+                            }
+                            else if(_yellow > 0)
+                            {
+                                _yellow --;
+                                Global.YellowBase ++;
+                            }
+                            else if(_blue > 0)
+                            {
+                                _blue --;
+                                Global.BlueBase ++;
+                            }
                         }
                     }
-                }
-                else if(_target.tag == "Base")
-                {
-                    for(int i = 0; i < Global.storage; i++)
+                    else if(_target.tag == "Base")
                     {
-                        if(_red > 0)
+                        for(int i = 0; i < Global.storage; i++)
                         {
-                            _target.GetComponent<Base>().Red ++;
-                            _red --;
-                        }
-                        else if(_yellow > 0)
-                        {
-                            _target.GetComponent<Base>().Yellow ++;
-                            _yellow --;
-                        }
-                        else if(_blue > 0)
-                        {
-                            _target.GetComponent<Base>().Blue ++;
-                            _blue --;
+                            if(_red > 0)
+                            {
+                                _target.GetComponent<Base>().Red ++;
+                                _red --;
+                            }
+                            else if(_yellow > 0)
+                            {
+                                _target.GetComponent<Base>().Yellow ++;
+                                _yellow --;
+                            }
+                            else if(_blue > 0)
+                            {
+                                _target.GetComponent<Base>().Blue ++;
+                                _blue --;
+                            }
                         }
                     }
+                    _storageCount = _red + _yellow + _blue;
                 }
-                _storageCount = _red + _yellow + _blue;
+                if (_storageCount == 0 && _storagefull == 1)
+                {
+                    _storagefull = 0;
+                }
+                return;
             }
-            if (_storageCount == 0 && _storagefull == 1)
-            {
-                _storagefull = 0;
-            }
-            if (_storagefull == 0 && _energyfull == 1)
-            {
-                GetComponent<CircleCollider2D>().isTrigger = false;
-            }
-            return;
         }
         else if (_ListBlock.Count > 0)
         {
@@ -120,30 +129,41 @@ public class AutoMove : MonoBehaviour
             }
             else
             {
-                transform.position = Vector2.MoveTowards(transform.position,_ListBlock[0].transform.position, 0.3f);
+                // Debug.Log(_ListBlock[0].transform.position.normalized - transform.position.normalized);
+                // Vector3 _newVector3 = _ListBlock[0].transform.position.normalized - transform.position.normalized;
+                // Debug.Log(_newVector3 + " - " + _ListBlock[0].transform.position.normalized + " - " + transform.position.normalized);
+                _Rigidbody.AddForce(transform.position - _ListBlock[0].transform.position.normalized/50);
+                // transform.position = Vector2.MoveTowards(transform.position,_ListBlock[0].transform.position, 0.3f);
                 _Hand.transform.rotation = Quaternion.LookRotation(Vector3.forward, _ListBlock[0].transform.position - _Hand.transform.position);
                 _energy -=5;
             }
         }
         if (_energy <= 0 && _energyfull == 1)
         {
-            SearchNearestBase();
             _energyfull = 0;
             _storagefull = 1;
-            GetComponent<CircleCollider2D>().isTrigger = true;
         }
         if (_storageCount >= UpdatePlayer.storageCountMax && _storagefull == 0)
         {
-            SearchNearestBase();
             _storagefull = 1;
             _energyfull = 0;
-            GetComponent<CircleCollider2D>().isTrigger = true;
+        }
+        if(_energyfull == 1 && _storageCount == 0 && _target != null)
+        {
+            _target.GetComponent<Busy>()._busy = 0;
+            _target = null;
         }
         RaycastHit2D hit = Physics2D.Raycast(_Hand.transform.position, _Hand.transform.up,30,layerMask3);
         if(hit && hit.collider.name == "Top")
         {
             Destroy(hit.collider.gameObject);
         }
+        // RaycastHit2D hit2 = Physics2D.Raycast(_Hand.transform.position, _Hand.transform.up,30,layerMask4);
+        // if(hit2)
+        // {
+        //     Debug.Log(transform.position + " - " + hit2.transform.position);
+        //     transform.position = transform.position + (transform.position - hit2.transform.position);
+        // }
     }
     void SearchBlock()
     {
@@ -195,10 +215,18 @@ public class AutoMove : MonoBehaviour
     }
     void SearchNearestBase()
     {
-        var test = Global.BuildingsCharge.Where(x => x != null).OrderBy(x => Vector2.Distance(transform.position,x.transform.position)).ToList(); 
-        _target = test[0];
-        _StartVector3 = test[0].transform.position;
-        _StartVector3.z = 0;
+        var test = Global.BuildingsCharge.Where(x => x != null).OrderBy(x => Vector2.Distance(transform.position,x.transform.position)).ToList();
+        foreach (var item in test)
+        {
+            if(item.GetComponent<Busy>()._busy == 0)
+            {
+                _target = item;
+                item.GetComponent<Busy>()._busy = 1;
+                _StartVector3 = item.transform.position;
+                _StartVector3.z = 0;
+                break;
+            }
+        }
     }
     void StartMove()
     {
@@ -231,5 +259,9 @@ public class AutoMove : MonoBehaviour
             }
             _storageCount = _red + _yellow + _blue;
         }
+        // else if(other.name == "Hand")
+        // {
+        //     transform.position -=_Hand.transform.right/10;
+        // }
     }
 }

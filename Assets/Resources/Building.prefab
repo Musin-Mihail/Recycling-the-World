@@ -220,6 +220,7 @@ GameObject:
   - component: {fileID: 7573699961126441297}
   - component: {fileID: 5277603277741051992}
   - component: {fileID: 7880140126701545509}
+  - component: {fileID: -8656149463038045960}
   m_Layer: 9
   m_Name: Building
   m_TagString: Base
@@ -370,3 +371,16 @@ MonoBehaviour:
   Point: {fileID: 1352763360360549553}
   Beam: {fileID: 3309373028476246129}
   LightBase: {fileID: 3740202291810852679}
+--- !u!114 &-8656149463038045960
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8335726195882421190}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c67be99d6550786429e85a2518b199c0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _busy: 0

@@ -49,16 +49,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f14616058d3d19d4f81940d9c05443a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  NearBase: {fileID: 0}
-  NextBase: {fileID: 0}
-  Point: {fileID: 4950582206612667568}
-  Beam: {fileID: 8907199144782063728}
   ReadyBuild: 0
-  BuildRes: 0
-  LightBase: {fileID: 7320079444759867206}
-  ListBase: []
-  TestFactory: []
-  Test: 0
+  Red: 0
+  Yellow: 0
+  Blue: 0
+  busy: 0
+  MainBase: []
 --- !u!50 &6736575371198307349
 Rigidbody2D:
   serializedVersion: 4
@@ -170,7 +166,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   AllNearBase: []
-  AllFactory: []
 --- !u!1 &4950582206612667568
 GameObject:
   m_ObjectHideFlags: 0
