@@ -13,7 +13,7 @@ public class AutoMove : MonoBehaviour
     // int layerMask4 = 1 << 18; //Dron
     int busy = 1;
     int _storagefull = 0;
-    int _energyfull = 1;
+    public int _energyfull = 1;
     Collider2D[] hitColliders;
     public List<Collider2D> _ListBlock;
     public GameObject _Hand;
@@ -27,10 +27,12 @@ public class AutoMove : MonoBehaviour
     public int _blue;
     public int _storageCount;
     public GameObject _targetDigger;
+    public int _drill;
 
     void Start()
 	{
-        _energy = 1000;
+        _drill = 0;
+        _energy = 5000;
         layerMask3 = layerMask | layerMask2;
         _StartVector3 = new Vector3 (0,0,0);
         _Rigidbody = GetComponent<Rigidbody2D>();
@@ -56,8 +58,7 @@ public class AutoMove : MonoBehaviour
             // }
             else
             {
-                _Rigidbody.AddForce((_target.transform.position - transform.position) * 0.001f);
-                // transform.position = Vector2.MoveTowards(transform.position,_target.transform.position, 0.3f);
+                transform.position = Vector2.MoveTowards(transform.position,_target.transform.position, 0.1f);
                 _Hand.transform.rotation = Quaternion.LookRotation(Vector3.forward, _target.transform.position - _Hand.transform.position);
                 if(Vector3.Distance(transform.position, _target.transform.position) < 0.2f)
                 {
@@ -68,7 +69,7 @@ public class AutoMove : MonoBehaviour
                     else if(_energyfull == 0)
                     {
                         _energyfull = 1;
-                        GetComponent<CircleCollider2D>().isTrigger = false;
+                        // GetComponent<CircleCollider2D>().isTrigger = false;
                     }
                     if(_target.name == "MainBase")
                     {
@@ -127,13 +128,9 @@ public class AutoMove : MonoBehaviour
             {
                 _ListBlock.RemoveAt(0);
             }
-            else
+            else if (_drill == 0)
             {
-                // Debug.Log(_ListBlock[0].transform.position.normalized - transform.position.normalized);
-                // Vector3 _newVector3 = _ListBlock[0].transform.position.normalized - transform.position.normalized;
-                // Debug.Log(_newVector3 + " - " + _ListBlock[0].transform.position.normalized + " - " + transform.position.normalized);
-                _Rigidbody.AddForce(transform.position - _ListBlock[0].transform.position.normalized/50);
-                // transform.position = Vector2.MoveTowards(transform.position,_ListBlock[0].transform.position, 0.3f);
+                transform.position = Vector2.MoveTowards(transform.position,_ListBlock[0].transform.position, 0.1f);
                 _Hand.transform.rotation = Quaternion.LookRotation(Vector3.forward, _ListBlock[0].transform.position - _Hand.transform.position);
                 _energy -=5;
             }
@@ -232,36 +229,39 @@ public class AutoMove : MonoBehaviour
     {
         busy = 0;
     }
-    void OnTriggerStay2D(Collider2D other)
+    // void OnTriggerStay2D(Collider2D other)
+    // {
+    //     if(other.name == "Resource")
+    //     {
+    //         if(_storageCount < UpdatePlayer.storageCountMax)
+    //         {
+    //             if(other.tag == "Yellow")
+    //             {
+    //                 Destroy(other.gameObject);
+    //                 _yellow ++;
+    //                 GetComponent<AutoMove>()._energy -=5;
+    //             }
+    //             else if(other.tag == "Red")
+    //             {
+    //                 Destroy(other.gameObject);
+    //                 _red ++;
+    //                 GetComponent<AutoMove>()._energy -=5;
+    //             }
+    //             else if(other.tag == "Blue")
+    //             {
+    //                 Destroy(other.gameObject);
+    //                 _blue ++;
+    //                 GetComponent<AutoMove>()._energy -=5;
+    //             }
+    //         }
+    //         _storageCount = _red + _yellow + _blue;
+    //     }
+    // }
+    void OnTriggerEnter2D(Collider2D other)
     {
-        if(other.name == "Resource")
+        if(other.name == "Block")
         {
-            if(_storageCount < UpdatePlayer.storageCountMax)
-            {
-                if(other.tag == "Yellow")
-                {
-                    Destroy(other.gameObject);
-                    _yellow ++;
-                    GetComponent<AutoMove>()._energy -=5;
-                }
-                else if(other.tag == "Red")
-                {
-                    Destroy(other.gameObject);
-                    _red ++;
-                    GetComponent<AutoMove>()._energy -=5;
-                }
-                else if(other.tag == "Blue")
-                {
-                    Destroy(other.gameObject);
-                    _blue ++;
-                    GetComponent<AutoMove>()._energy -=5;
-                }
-            }
-            _storageCount = _red + _yellow + _blue;
+            _drill = 1;
         }
-        // else if(other.name == "Hand")
-        // {
-        //     transform.position -=_Hand.transform.right/10;
-        // }
     }
 }

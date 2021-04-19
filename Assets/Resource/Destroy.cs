@@ -22,7 +22,7 @@ public class Destroy : MonoBehaviour
             if(Global.storageCount < UpdatePlayer.storageCountMax && Global.Energy>0)
             {
                 RaycastHit2D hit = Physics2D.Raycast(transform.position, other.transform.position-transform.position,20,layerMask3);
-                if(hit && hit.collider.name == "Body")
+                if(hit && hit.collider.name == "Drill")
                 {
                     rb.gravityScale = 0;
                     rb.velocity = new Vector3(0,0,0);

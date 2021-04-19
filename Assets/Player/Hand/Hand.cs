@@ -8,7 +8,7 @@ public class Hand : MonoBehaviour
     // int layerMask2 = 1 << 17;
     // int layerMask3;
     // public float DistancePlayer;
-    public GameObject _dron;
+    // public GameObject _dron;
     // void Start()
     // {
     //     layerMask3 = layerMask | layerMask2;
@@ -24,11 +24,11 @@ public class Hand : MonoBehaviour
     //         Destroy(hit.collider.gameObject);
     //     }
     // }
-    void OnTriggerStay2D(Collider2D other)
-    {
-        if(other.name == "Dron")
-        {
-            _dron.transform.position -=transform.right/10;
-        }
-    }
+    // void OnTriggerStay2D(Collider2D other)
+    // {
+    //     if(other.name == "Dron")
+    //     {
+    //         _dron.transform.position -=transform.right/10;
+    //     }
+    // }
 }

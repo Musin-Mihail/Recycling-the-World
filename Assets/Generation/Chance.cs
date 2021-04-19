@@ -76,7 +76,8 @@ public class Chance : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D other)
     {
 //Уничтожение при попадания лазера
-        if(other.tag == "Laser" || other.name == "Body" && check2 == 1)
+        // if(other.tag == "Laser" || other.name == "Drill" && check2 == 1)
+        if(other.name == "Drill" && check2 == 1)
         {
             check2 = 0;
             if(transform.localScale.x > sizeBlock) 
