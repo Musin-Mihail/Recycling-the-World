@@ -13,7 +13,7 @@ public class BaseBuild : MonoBehaviour
         Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         Point.transform.rotation = Quaternion.LookRotation(Vector3.forward, NearBase.transform.position - Point.transform.position);
         Beam.transform.localPosition = new Vector2(0,BaseDistance/6);
-        Beam.transform.localScale = new Vector3(Beam.transform.localScale.x,BaseDistance*2.5f,1);
+        Beam.transform.localScale = new Vector3(Beam.transform.localScale.x,BaseDistance*0.28f,1);
     }
     public static IEnumerator Build(List<GameObject> MainBase, int Red = 0, int Yellow = 0, int Blue = 0, int AllCost = 0)
     {

@@ -20,10 +20,14 @@ public class Mouse : MonoBehaviour
     int layerMask = 1 << 8;//Блоки
     int layerMask2 = 1 << 9;//База
     int layerMask3;
+    List<string> _nameBuilders;
     public Vector2 target;
+    Vector2 _oldVector2;
+    float _distans;
     enum BuildingName {Wait, Base, Factory, Magenta};
     void Start()
     {
+        _nameBuilders = new List<string>();
 //Объединение слоёв
         layerMask3 = layerMask | layerMask2;
     }
@@ -38,6 +42,7 @@ public class Mouse : MonoBehaviour
             BaseDistance = Vector3.Distance(BBase.transform.position, EmptyBase.transform.position);
             if(BaseDistance > 20 || Global.RedBase < CostRed || Global.YellowBase < CostYellow || Global.BlueBase < CostBlue)
             {
+                Debug.Log(BaseDistance);
                 EmptyBaseM.color = Color.red;
             }
             else
@@ -66,6 +71,8 @@ public class Mouse : MonoBehaviour
                     }
                     else
                     {
+                        _nameBuilders.Add(BBase.name);
+                        Debug.DrawRay(target, (Vector2)BBase.transform.position - target,Color.green,0.5f);
                         EmptyBaseM.color = Color.yellow;
                     }
                 }
@@ -77,15 +84,21 @@ public class Mouse : MonoBehaviour
             transform.position = target;
             EmptyBase.transform.position = new Vector3 (1000, 1000, -2);
         }
-
         if (Input.GetMouseButtonDown(1))
-            {
+        {
 //Отмена постройки
-                check = (int) BuildingName.Wait;
-                CostRed = 0;
-                CostYellow = 0;
-                CostBlue = 0;
-            }
+            check = (int) BuildingName.Wait;
+            CostRed = 0;
+            CostYellow = 0;
+            CostBlue = 0;
+            _nameBuilders.Clear();
+        }
+        _distans =  Vector3.Distance(_oldVector2, target);
+        if(_distans > 0.5f)
+        {
+            _nameBuilders.Clear();
+            _oldVector2 = target;
+        }
     }
     public void BuildCharging()
     {
@@ -156,8 +169,17 @@ public class Mouse : MonoBehaviour
         Vector3 position = EmptyBase.transform.position;
         foreach (GameObject go in Global.BuildingsList)
         {
-            if(go.tag == "Base")
+            int _check = 0;
+            foreach (var _name in _nameBuilders)
+            {
+                if (go.name == _name)
                 {
+                    _check = 1;
+                    break;
+                }
+            }
+            if(go.tag == "Base" && _check == 0)
+            {
                 float curDistance = Vector3.Distance(go.transform.position, position);
                 if (curDistance < distance)
                 {

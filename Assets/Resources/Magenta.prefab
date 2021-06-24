@@ -42,7 +42,7 @@ GameObject:
   - component: {fileID: 3921208654806716222}
   - component: {fileID: 5671347969936504224}
   m_Layer: 9
-  m_Name: AG-Beam
+  m_Name: AG-Beam4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -272,12 +272,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d0fe90a939daad4d9564240b8fa49e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  NearBase: {fileID: 0}
-  NextBase: {fileID: 0}
-  Point: {fileID: 1013965940525123398}
-  Beam: {fileID: 3547409895327912838}
-  ReadyBuild: 0
-  BuildRes: 0
   RecRes: 0
   Busy: 0
+  CostRed: 200
+  CostYellow: 20
+  CostBlue: 5
+  AllCostBuild: 0
   MainBase: []
