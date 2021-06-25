@@ -10,24 +10,31 @@ public class Drill : MonoBehaviour
     public Collider2D[] _allBlock;
     public List<Collider2D> _allBlockList;
     int layerMask = 1 << 8; //Block
+    int _inPlace;
+    
     void Start()
     {
+        _inPlace = 1;
         _enable = 0;
+        StartCoroutine(ReSort());
     }
     void Update()
     {
+        
+
         if(_mainScript.GetComponent<AutoMove>()._drill == 1 && _enable == 0)
         {
-            _allBlock = Physics2D.OverlapCircleAll(_mainScript.transform.position, 6, layerMask);
-            _allBlockList = _allBlock.ToList();
+            // _allBlock = Physics2D.OverlapCircleAll(_mainScript.transform.position, 6, layerMask);
+            // _allBlockList = _allBlock.ToList();
+
             if(_allBlockList.Count > 0)
             {
+                // Sort();
                 _enable = 1;
             }
             else
             {
-                _mainScript.GetComponent<AutoMove>()._drill = 0;
-                _enable = 0;
+                // _mainScript.GetComponent<AutoMove>()._drill = 0;
                 StartCoroutine(MoveStart());
             }
         }
@@ -46,16 +53,28 @@ public class Drill : MonoBehaviour
             else
             {
                 _allBlockList.Clear();
-                _enable = 0;
+                // _enable = 0;
                 StartCoroutine(MoveStart());
             }
         }
-        else
+        else if (_inPlace == 1)
         {
-            _mainScript.GetComponent<AutoMove>()._drill = 0;
-            _enable = 0;
+            // _mainScript.GetComponent<AutoMove>()._drill = 0;
+            // _enable = 0;
             StartCoroutine(MoveStart());
         }
+    }
+    IEnumerator ReSort()
+    {
+        while(true)
+        {
+            Sort();
+            yield return new WaitForSeconds(0.5f);
+        }
+    }
+    void Sort()
+    {
+        _allBlockList = _mainScript.GetComponent<AutoMove>()._ListBlock.Where(x => x != null).Where(x => Vector2.Distance(_mainScript.transform.position,x.transform.position) < 5 ).OrderBy(x => Vector2.Distance(transform.position,x.transform.position)).ToList();
     }
     void OnTriggerStay2D(Collider2D other)
     {
@@ -87,14 +106,19 @@ public class Drill : MonoBehaviour
     }
     IEnumerator MoveStart()
     {
-        while(transform.position != _mainScript.transform.position)
+        _mainScript.GetComponent<AutoMove>().SearchNearestObject();
+        _inPlace = 0;
+        while(transform.position != _mainScript.transform.position && _allBlockList.Count == 0)
         {
-            transform.position = Vector2.MoveTowards(transform.position,_mainScript.transform.position, 0.4f);
-            yield return new WaitForSeconds(0.1f);
-            if(_enable == 1)
+            transform.position = Vector2.MoveTowards(transform.position,_mainScript.transform.position, 0.05f);
+            yield return new WaitForSeconds(0.01f);
+            if(_allBlockList.Count > 0)
             {
                 break;
             }
         }
+        _enable = 0;
+        _mainScript.GetComponent<AutoMove>()._drill = 0;
+        _inPlace = 1;
     }
 }

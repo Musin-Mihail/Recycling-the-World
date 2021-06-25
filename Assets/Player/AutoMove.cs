@@ -28,6 +28,12 @@ public class AutoMove : MonoBehaviour
     public int _storageCount;
     public GameObject _targetDigger;
     public int _drill;
+    public GameObject _manipulator;
+    public GameObject _joint;
+    public GameObject _joint2;
+    public GameObject _drillObject;
+    public Vector2 _jointVector2;
+    public float _jointDistans;
 
     void Start()
 	{
@@ -41,12 +47,16 @@ public class AutoMove : MonoBehaviour
     }
     void Update()
     {
-        if (_ListBlock.Count == 0 && busy == 0)
-        {
-            busy = 1;
-            SearchBlock();
-        }
-        if (_storagefull == 1 || _energyfull == 0 )
+        _jointDistans = Vector2.Distance(transform.position,_drillObject.transform.position)/2;
+        _manipulator.transform.rotation = Quaternion.LookRotation(Vector3.forward, _drillObject.transform.position - _manipulator.transform.position);
+        _joint.transform.position = transform.position + _manipulator.transform.up * _jointDistans;
+        _joint2.transform.position = _joint.transform.position + _manipulator.transform.right * (2.5f - _jointDistans);
+        // if (_ListBlock.Count == 0 && busy == 0)
+        // {
+            // busy = 1;
+            // SearchBlock();
+        // }
+        if (_storagefull == 1 || _energyfull == 0)
         {
             if(_target == null)
             {
@@ -56,7 +66,7 @@ public class AutoMove : MonoBehaviour
             // {
             //     SearchNearestBase();
             // }
-            else
+            else if (_drill == 0)
             {
                 transform.position = Vector2.MoveTowards(transform.position,_target.transform.position, 0.1f);
                 _Hand.transform.rotation = Quaternion.LookRotation(Vector3.forward, _target.transform.position - _Hand.transform.position);
@@ -68,6 +78,7 @@ public class AutoMove : MonoBehaviour
                     }                
                     else if(_energyfull == 0)
                     {
+                        SearchNearestObject();
                         _energyfull = 1;
                         // GetComponent<CircleCollider2D>().isTrigger = false;
                     }
@@ -166,7 +177,7 @@ public class AutoMove : MonoBehaviour
     {
         if(_targetDigger == null)
         {
-            if(Global.BuildingsDiger.Count >0)
+            if(Global.BuildingsDiger.Count > 0)
             {
                 _targetDigger = Global.BuildingsDiger[0];
                 Global.BuildingsDiger.RemoveAt(0);
@@ -200,13 +211,14 @@ public class AutoMove : MonoBehaviour
     }
     IEnumerator ReSort()
     {
+        yield return new WaitForSeconds(3.0f);
         while(true)
         {
-            SearchNearestObject();
-            yield return new WaitForSeconds(0.5f);
+            SearchBlock();
+            yield return new WaitForSeconds(1.0f);
         }
     }
-    void SearchNearestObject()
+    public void SearchNearestObject()
     {
         _ListBlock = _ListBlock.Where(x => x != null).OrderBy(x => Vector2.Distance(transform.position,x.transform.position)).ToList();
     }
