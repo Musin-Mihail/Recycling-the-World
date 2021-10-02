@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
 public class Chance : MonoBehaviour
 {
     float size;
@@ -82,7 +81,8 @@ public class Chance : MonoBehaviour
             check2 = 0;
             if(transform.localScale.x > sizeBlock) 
             {
-                Destroy(gameObject);
+                // Destroy(gameObject);
+                gameObject.SetActive(false);
                 GenChank(Target1);
                 GenChank(Target2);
                 GenChank(Target3);
@@ -91,7 +91,8 @@ public class Chance : MonoBehaviour
 //Создание ресурсов после уничтожения, если блок маленький
             else if (transform.tag == "Red")
             {
-                    Destroy(gameObject);
+                    // Destroy(gameObject);
+                    gameObject.SetActive(false);
                     var Resource1 =  Instantiate(Global.Resource, transform.position, transform.rotation);
                     Resource1.GetComponent<SpriteRenderer>().color = Color.red;
                     Resource1.name = "Resource";
@@ -102,7 +103,8 @@ public class Chance : MonoBehaviour
                 float chance = Random.Range(0.0f,10.0f);
                 if(chance<=0.1f)
                 {
-                    Destroy(gameObject);   
+                    // Destroy(gameObject);  
+                    gameObject.SetActive(false); 
                     var Resource2 = Instantiate(Global.Resource, transform.position, transform.rotation);
                     Resource2.GetComponent<SpriteRenderer>().color = Color.blue;
                     Resource2.name = "Resource";
@@ -110,7 +112,8 @@ public class Chance : MonoBehaviour
                 }
                 else
                 {
-                    Destroy(gameObject);         
+                    // Destroy(gameObject);   
+                    gameObject.SetActive(false);      
                     var Resource3 = Instantiate(Global.Resource, transform.position, transform.rotation);
                     Resource3.GetComponent<SpriteRenderer>().color = Color.yellow;
                     Resource3.name = "Resource";
@@ -119,7 +122,8 @@ public class Chance : MonoBehaviour
             }
             else
             {
-                Destroy(gameObject);
+                // Destroy(gameObject);
+                gameObject.SetActive(false);
             }
         }
     }
@@ -131,7 +135,8 @@ public class Chance : MonoBehaviour
         {
             if(transform.localScale.x > sizeBlock)
             {
-                Destroy(gameObject);
+                // Destroy(gameObject);
+                gameObject.SetActive(false);
                 GenCaveChank(Target1);
                 GenCaveChank(Target2);
                 GenCaveChank(Target3);
@@ -139,7 +144,8 @@ public class Chance : MonoBehaviour
             }
             else
             {
-                Destroy(gameObject);
+                // Destroy(gameObject);
+                gameObject.SetActive(false);
                 // GenEnemy(transform.position);
             }
         }

@@ -11,7 +11,7 @@ public class AutoMove : MonoBehaviour
     int layerMask2 = 1 << 17; //TopBlock
     int layerMask3;
     // int layerMask4 = 1 << 18; //Dron
-    int busy = 1;
+    // int busy = 1;
     int _storagefull = 0;
     public int _energyfull = 1;
     Collider2D[] hitColliders;
@@ -31,9 +31,12 @@ public class AutoMove : MonoBehaviour
     public GameObject _manipulator;
     public GameObject _joint;
     public GameObject _joint2;
+    public GameObject _part1;
+    public GameObject _part2;
     public GameObject _drillObject;
     public Vector2 _jointVector2;
     public float _jointDistans;
+    public GameObject ComponentBusy;
 
     void Start()
 	{
@@ -42,7 +45,7 @@ public class AutoMove : MonoBehaviour
         layerMask3 = layerMask | layerMask2;
         _StartVector3 = new Vector3 (0,0,0);
         _Rigidbody = GetComponent<Rigidbody2D>();
-        Invoke("StartMove", 5.0f);
+        // Invoke("StartMove", 5.0f);
         StartCoroutine(ReSort());
     }
     void Update()
@@ -51,6 +54,12 @@ public class AutoMove : MonoBehaviour
         _manipulator.transform.rotation = Quaternion.LookRotation(Vector3.forward, _drillObject.transform.position - _manipulator.transform.position);
         _joint.transform.position = transform.position + _manipulator.transform.up * _jointDistans;
         _joint2.transform.position = _joint.transform.position + _manipulator.transform.right * (2.5f - _jointDistans);
+        _part1.transform.rotation = Quaternion.LookRotation(Vector3.forward, _joint2.transform.position - _part1.transform.position);
+        _part2.transform.rotation = Quaternion.LookRotation(Vector3.forward, _drillObject.transform.position - _part2.transform.position);
+        if (_drill == 1)
+        {
+            _Hand.transform.rotation = Quaternion.LookRotation(Vector3.forward, _drillObject.transform.position - _Hand.transform.position);
+        }
         // if (_ListBlock.Count == 0 && busy == 0)
         // {
             // busy = 1;
@@ -175,39 +184,114 @@ public class AutoMove : MonoBehaviour
     }
     void SearchBlock()
     {
-        if(_targetDigger == null)
-        {
-            if(Global.BuildingsDiger.Count > 0)
-            {
-                _targetDigger = Global.BuildingsDiger[0];
-                Global.BuildingsDiger.RemoveAt(0);
-            }
-            else
-            {
-                foreach (var item in Global.BuildingsCharge)
-                {
-                    hitColliders = Physics2D.OverlapCircleAll(item.transform.position, radius, layerMask);
+        // if(_targetDigger == null)
+        // {
+            // if(Global.BuildingsDiger.Count > 0)
+            // {
+                // _targetDigger = Global.BuildingsDiger[0];
+                // Global.BuildingsDiger.RemoveAt(0);
+
+                // if(_targetDigger != null)
+                // {
+                //     hitColliders = Physics2D.OverlapCircleAll(_targetDigger.transform.position, radius, layerMask);
+                //     if (hitColliders.Length > 0)
+                //     {
+                //         _ListBlock = hitColliders.ToList();
+                //     }
+                //     else
+                //     {
+                //         _targetDigger.GetComponent<Busy>()._numberBots--;
+                //         _targetDigger = null;
+                //     }
+                // }
+                // else
+                // {
+                    int count = 100;
+                    foreach (var item in Global.BuildingsDiger)
+                    {
+                        if(item.GetComponent<Busy>()._empty == 1 && count > item.GetComponent<Busy>()._numberBots)
+                        {
+                            count = item.GetComponent<Busy>()._numberBots;
+                            if(_targetDigger != null)
+                            {
+                                if(_targetDigger.GetComponent<Busy>()._numberBots > count+1)
+                                {
+                                    _targetDigger.GetComponent<Busy>()._numberBots--;
+                                    _targetDigger = item;
+                                    _targetDigger.GetComponent<Busy>()._numberBots++;
+                                    Debug.Log("Дрон - " + name + " переключился на здание - " + _targetDigger.name);
+                                }
+                            }
+                            else
+                            {
+                                _targetDigger = item;
+                                _targetDigger.GetComponent<Busy>()._numberBots++;
+                                Debug.Log("Дрон - " + name + " переключился на здание - " + _targetDigger.name);
+                            }
+                        }
+                    }
+                    hitColliders = Physics2D.OverlapCircleAll(_targetDigger.transform.position, radius, layerMask);
                     if(hitColliders.Length > 0)
                     {
-                        _targetDigger = item;
-                        break;
-                    } 
-                }
-            }
-        }
-        else
-        {
-            hitColliders = Physics2D.OverlapCircleAll(_targetDigger.transform.position, radius, layerMask);
-            if (hitColliders.Length > 0)
-            {
-                _ListBlock = hitColliders.ToList();
-            }
-            else
-            {
-                _targetDigger = null;
-            }
-        }
-        busy = 0;
+                        _ListBlock = hitColliders.ToList();
+                    }
+                    else
+                    {
+                        Debug.Log(_targetDigger.name + " - Пуст");
+                        _targetDigger.GetComponent<Busy>()._empty = 0;
+                        _targetDigger.GetComponent<Busy>()._numberBots--;
+                        _targetDigger = null;
+                    }
+                    
+                    // if(_targetDigger != null)
+                    // {
+                    // _targetDigger.GetComponent<Busy>()._numberBots++;
+                    // }
+                // }
+            // }
+            // else
+            // {
+            //     foreach (var item in Global.BuildingsCharge)
+            //     {
+            //         if(GetComponent<ComponentBusy>())
+            //         {
+            //             continue;
+            //         }
+            //         else
+            //         {
+            //             hitColliders = Physics2D.OverlapCircleAll(item.transform.position, radius, layerMask);
+            //             if(hitColliders.Length > 0)
+            //             {
+            //                 item.AddComponent<ComponentBusy>();
+            //                 _targetDigger = item;
+            //                 break;
+            //             } 
+            //         }
+            //     }
+            //     foreach (var item in Global.BuildingsCharge)
+            //     {
+            //         hitColliders = Physics2D.OverlapCircleAll(item.transform.position, radius, layerMask);
+            //         if(hitColliders.Length > 0)
+            //         {
+            //             _targetDigger = item;
+            //             break;
+            //         } 
+            //     }
+            // }
+        // }
+        // {
+        //     hitColliders = Physics2D.OverlapCircleAll(_targetDigger.transform.position, radius, layerMask);
+        //     if (hitColliders.Length > 0)
+        //     {
+        //         _ListBlock = hitColliders.ToList();
+        //     }
+        //     else
+        //     {
+        //         _targetDigger.GetComponent<Busy>()._numberBots--;
+        //         _targetDigger = null;
+        //     }
+        // }
+        // busy = 0;
     }
     IEnumerator ReSort()
     {
@@ -237,10 +321,10 @@ public class AutoMove : MonoBehaviour
             }
         }
     }
-    void StartMove()
-    {
-        busy = 0;
-    }
+    // void StartMove()
+    // {
+    //     busy = 0;
+    // }
     // void OnTriggerStay2D(Collider2D other)
     // {
     //     if(other.name == "Resource")

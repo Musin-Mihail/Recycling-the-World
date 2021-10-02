@@ -22,7 +22,8 @@ public class GenBG : MonoBehaviour
     }
     void Update()
     {
-        DistancePlayer = Vector3.Distance(transform.position,PlayerGlobal.Player.transform.position);
+        // DistancePlayer = Vector3.Distance(transform.position,PlayerGlobal.Player.transform.position);
+        DistancePlayer = Vector3.Distance(transform.position, Vector3.zero);
         if (DistancePlayer<DistantGen && test==0)
         {
             test = 1;

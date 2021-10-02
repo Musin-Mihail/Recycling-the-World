@@ -162,7 +162,7 @@ public class Mouse : MonoBehaviour
     }
     void SearchBase() //Поиск ближайшей базы
     {
-        Debug.Log("1");
+        // Debug.Log("1");
         float distance = Mathf.Infinity;
         Vector3 position = EmptyBase.transform.position;
         foreach (GameObject go in Global.BuildingsList)
@@ -178,7 +178,7 @@ public class Mouse : MonoBehaviour
             }
             if(go.tag == "Base" && _check == 0)
             {
-                Debug.Log("2");
+                // Debug.Log("2");
                 float curDistance = Vector3.Distance(go.transform.position, position);
                 if (curDistance < distance)
                 {

@@ -9,7 +9,7 @@ public class Drill : MonoBehaviour
     public int _enable;
     public Collider2D[] _allBlock;
     public List<Collider2D> _allBlockList;
-    int layerMask = 1 << 8; //Block
+    // int layerMask = 1 << 8; //Block
     int _inPlace;
     
     void Start()
@@ -106,6 +106,8 @@ public class Drill : MonoBehaviour
     }
     IEnumerator MoveStart()
     {
+        _enable = 0;
+        _mainScript.GetComponent<AutoMove>()._drill = 0;
         _mainScript.GetComponent<AutoMove>().SearchNearestObject();
         _inPlace = 0;
         while(transform.position != _mainScript.transform.position && _allBlockList.Count == 0)
@@ -117,8 +119,7 @@ public class Drill : MonoBehaviour
                 break;
             }
         }
-        _enable = 0;
-        _mainScript.GetComponent<AutoMove>()._drill = 0;
+        
         _inPlace = 1;
     }
 }

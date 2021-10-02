@@ -40,7 +40,7 @@ SpriteRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 233001929403887322}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
@@ -132,8 +132,6 @@ GameObject:
   m_Component:
   - component: {fileID: 6690509349842997735}
   - component: {fileID: 1797743104225860005}
-  - component: {fileID: 7332635640273530891}
-  - component: {fileID: 2235116651817785960}
   - component: {fileID: -6394093954501445138}
   m_Layer: 13
   m_Name: Chank
@@ -166,7 +164,7 @@ BoxCollider2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9072827810146654945}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Density: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 1
@@ -185,35 +183,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 10, y: 10}
   m_EdgeRadius: 0
---- !u!114 &7332635640273530891
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9072827810146654945}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6b6abb5bf4d151043b7039d719dc7a8b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Child: {fileID: 7174427779428977933}
---- !u!114 &2235116651817785960
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9072827810146654945}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a571e02db6de8af4aa051c8f5ea497c4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ChanceYellow: 0
-  ChanceRed: 0
-  ChanceRes3: 0
-  chance: 0
 --- !u!50 &-6394093954501445138
 Rigidbody2D:
   serializedVersion: 4
@@ -336,11 +305,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0cc13ade69a56c5498d609d77d6b390e, type: 3}
---- !u!1 &7174427779428977933 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 7563607453641115164, guid: 0cc13ade69a56c5498d609d77d6b390e, type: 3}
-  m_PrefabInstance: {fileID: 821877152793856785}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &4092121087619274885 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3723850826266383252, guid: 0cc13ade69a56c5498d609d77d6b390e, type: 3}

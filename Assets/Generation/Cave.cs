@@ -33,13 +33,15 @@ public class Cave : MonoBehaviour
         Debug.Log( PerlinNoiseCave + " - " + fff);
         if(PerlinNoiseCave>fff)
         {
-            Destroy(gameObject);
+            // Destroy(gameObject);
+            gameObject.SetActive(false);
         }
         else
         {
             if(transform.localScale.x >= sizeBlock)
             {
-                Destroy(gameObject);
+                // Destroy(gameObject);
+                gameObject.SetActive(false);
                 GenChank(Target1);
                 GenChank(Target2);
                 GenChank(Target3);
@@ -58,6 +60,7 @@ public class Cave : MonoBehaviour
     }
     void DestroyCave()
     {
-        Destroy(gameObject);
+        // Destroy(gameObject);
+        gameObject.SetActive(false);
     }
 }
