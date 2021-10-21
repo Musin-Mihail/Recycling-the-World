@@ -3670,7 +3670,7 @@ Camera:
   far clip plane: 50
   field of view: 128
   orthographic: 1
-  orthographic size: 1000
+  orthographic size: 182.63
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -14582,6 +14582,7 @@ MonoBehaviour:
   ChanceYellow: 0
   ChanceRed: 0
   ChanceRes3: 0
+  Chank: {fileID: 7563607453641115164, guid: 0cc13ade69a56c5498d609d77d6b390e, type: 3}
 --- !u!1 &2006100736
 GameObject:
   m_ObjectHideFlags: 0
