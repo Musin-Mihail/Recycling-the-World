@@ -3670,7 +3670,7 @@ Camera:
   far clip plane: 50
   field of view: 128
   orthographic: 1
-  orthographic size: 182.63
+  orthographic size: 510
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -14447,7 +14447,6 @@ GameObject:
   - component: {fileID: 1956789934}
   - component: {fileID: 1956789936}
   - component: {fileID: 1956789932}
-  - component: {fileID: 1956789937}
   - component: {fileID: 1956789938}
   m_Layer: 0
   m_Name: General
@@ -14537,36 +14536,6 @@ MonoBehaviour:
   MagentaBase: {fileID: 1065932935}
   Win: {fileID: 1779103647}
   UpdateStat: {fileID: 1733069790}
---- !u!114 &1956789937
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1956789931}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -745406591, guid: 220224b43fc464c28bc0e8de8f54a432, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Trigger:
-    m_IsTriggerExpanded: 1
-    m_Type: 0
-    m_LifecycleEvent: 2
-    m_ApplyRules: 0
-    m_Rules:
-      m_Rules: []
-    m_TriggerBool: 0
-    m_InitTime: 5
-    m_RepeatTime: 5
-    m_Repetitions: 0
-    repetitionCount: 0
-  m_EventPayload:
-    m_IsEventExpanded: 1
-    m_StandardEventType: GameStart
-    m_Parameters:
-      m_Parameters: []
-    m_Name: game_start
 --- !u!114 &1956789938
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14579,10 +14548,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3d55bdcbbc1a18745b9b750051e7b832, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  noise1: 0.55
+  noise2: 0.64
+  noise3: 0.74
+  noise4: 0.78
+  noise5: 0.79
   ChanceYellow: 0
   ChanceRed: 0
   ChanceRes3: 0
-  Chank: {fileID: 7563607453641115164, guid: 0cc13ade69a56c5498d609d77d6b390e, type: 3}
+  newChank: []
+  vectorChank: []
+  NewBasicChank: []
+  AllBasicVector3Chank: []
+  AllTransformBlock: []
+  Chank1: {fileID: 7563607453641115164, guid: 0cc13ade69a56c5498d609d77d6b390e, type: 3}
+  Chank2: {fileID: 7008195169446983824, guid: 35e1969f522976e45951613208ac208c, type: 3}
+  Chank3: {fileID: 4496463174179751075, guid: 204f4dfb1586a154f9e7af3035459cc9, type: 3}
+  Chank4: {fileID: 6492817231826833632, guid: 4658d89629eba10468cc6954ebb701ec, type: 3}
+  Chank5: {fileID: 8987295664706091366, guid: 26006afb52cdb3344bc05f8b277d0f1b, type: 3}
 --- !u!1 &2006100736
 GameObject:
   m_ObjectHideFlags: 0
