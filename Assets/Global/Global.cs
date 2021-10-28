@@ -60,7 +60,8 @@ public class Global : MonoBehaviour
         Earth = GameObject.Find("Earth");
         EnemyStor = GameObject.Find("EnemyStor");
         RandomCave = Random.Range(500,1500);
-        // RandomCave = 561;
+        // print(RandomCave);
+        // RandomCave = 868;
         Resource = Resources.Load<GameObject>("Resource");
         Resource2 = Resources.Load<GameObject>("Resource3");
         // Buildings = GameObject.Find("Buildings");
