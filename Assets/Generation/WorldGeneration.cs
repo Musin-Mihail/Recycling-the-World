@@ -3,13 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 public class WorldGeneration : MonoBehaviour
 {
-    float noise1 = 0.55f;
-    float noise2 = 0.64f;
-    float noise3 = 0.74f;
-    float noise4 = 0.78f;
-    float noise5 = 0.79f;
-    float noise6 = 0.795f;
-    // float DistancePlayer;
+    float noise1 = 0.66f;
+    float noise2 = 0.58f;
+    float noise3 = 0.72f;
+    float noise4 = 0.775f;
+    float noise5 = 0.789f;
+    float noise6 = 0.796f;
     // float ChanceYellow;
     // float ChanceRed;
     // float ChanceRes3;
@@ -18,8 +17,8 @@ public class WorldGeneration : MonoBehaviour
     List<Vector3> NewBasicChank = new List<Vector3>();
     List<Vector3> AllBasicVector3Chank = new List<Vector3>();
     List<Vector3> AllVectorBlock = new List<Vector3>();
+    public List<Transform> caveVector = new List<Transform>();
     float noiseScale = 0.02f;
-    // float fff;
     public GameObject Chank1;
     public GameObject Chank2;
     public GameObject Chank3;
@@ -42,7 +41,7 @@ public class WorldGeneration : MonoBehaviour
             yield return new WaitForSeconds(0.05f);
             if (NewBasicChank.Count != 0)
             {
-                if (Vector3.Distance(NewBasicChank[0], Vector3.zero) < 200)
+                if (Vector3.Distance(NewBasicChank[0], Vector3.zero) < 300)
                 {
                     Vector3 vectorUp = NewBasicChank[0] + Vector3.up * 10;
                     if (vectorUp.y <= 0)
@@ -167,7 +166,17 @@ public class WorldGeneration : MonoBehaviour
     }
     float PerlinNoise(Vector3 vector)
     {
-        float value = Mathf.PerlinNoise((vector.x + Global.RandomCave) * noiseScale, (vector.y + Global.RandomCave) * noiseScale); 
+        float value = Mathf.PerlinNoise((vector.x + Global.RandomCave) * noiseScale, (vector.y + Global.RandomCave) * noiseScale);
+        foreach (var vectorCave in caveVector)
+        {
+            float scale = vectorCave.localScale.x;
+            float distans = Vector3.Distance(vectorCave.position, vector);
+            float value2 = 1 - ((distans/(scale/35))/100);
+            if(value2 > value)
+            {
+                value = value2;
+            }
+        }
         return value;
     }
     //             var Deep = -target.y;

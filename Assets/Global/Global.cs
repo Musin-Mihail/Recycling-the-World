@@ -61,7 +61,7 @@ public class Global : MonoBehaviour
         EnemyStor = GameObject.Find("EnemyStor");
         RandomCave = Random.Range(500,1500);
         // print(RandomCave);
-        // RandomCave = 868;
+        // RandomCave = 722;
         Resource = Resources.Load<GameObject>("Resource");
         Resource2 = Resources.Load<GameObject>("Resource3");
         // Buildings = GameObject.Find("Buildings");
