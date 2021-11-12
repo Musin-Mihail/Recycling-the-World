@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 public class WorldGeneration : MonoBehaviour
 {
-    float noise1 = 0.66f;
-    float noise2 = 0.58f;
-    float noise3 = 0.72f;
-    float noise4 = 0.775f;
-    float noise5 = 0.789f;
+    float noise1 = 0.55f;
+    float noise2 = 0.60f;
+    float noise3 = 0.70f;
+    float noise4 = 0.75f;
+    float noise5 = 0.785f;
     float noise6 = 0.796f;
     // float ChanceYellow;
     // float ChanceRed;
@@ -25,23 +25,25 @@ public class WorldGeneration : MonoBehaviour
     public GameObject Chank4;
     public GameObject Chank5;
     public GameObject Chank6;
-    Vector3 V1 = new Vector3(1,1,0);
-    Vector3 V2 = new Vector3(-1,-1,0);
-    Vector3 V3 = new Vector3(-1,1,0);
-    Vector3 V4 = new Vector3(1,-1,0);
+    Vector3 V1 = new Vector3(1, 1, 0);
+    Vector3 V2 = new Vector3(-1, -1, 0);
+    Vector3 V3 = new Vector3(-1, 1, 0);
+    Vector3 V4 = new Vector3(1, -1, 0);
+    int maxDistans = 1000;
+    public GameObject BlackChank;
     void Start()
     {
         StartCoroutine(BasicChankGeneration());
     }
     IEnumerator BasicChankGeneration()
     {
-        NewBasicChank.Add(new Vector3(0,0,0));
+        NewBasicChank.Add(new Vector3(0, 0, 0));
         while (true)
         {
             yield return new WaitForSeconds(0.05f);
             if (NewBasicChank.Count != 0)
             {
-                if (Vector3.Distance(NewBasicChank[0], Vector3.zero) < 300)
+                if (Vector3.Distance(NewBasicChank[0], Vector3.zero) < maxDistans)
                 {
                     Vector3 vectorUp = NewBasicChank[0] + Vector3.up * 10;
                     if (vectorUp.y <= 0)
@@ -54,7 +56,7 @@ public class WorldGeneration : MonoBehaviour
                     bool CheckChank = true;
                     foreach (var vector in AllVectorBlock)
                     {
-                        if(NewBasicChank[0] == vector)
+                        if (NewBasicChank[0] == vector)
                         {
                             CheckChank = false;
                             break;
@@ -69,7 +71,10 @@ public class WorldGeneration : MonoBehaviour
                         }
                         else
                         {
-                            CreateCave(NewBasicChank[0], 2.5f);
+                            GameObject chank = Instantiate(BlackChank, NewBasicChank[0], Quaternion.identity, Global.Earth.transform);
+                            // GameObject chank =  new GameObject("chank");
+                            chank.transform.parent = Global.Earth.transform;
+                            CreateCave(NewBasicChank[0], 2.5f, chank);
                         }
                         AllVectorBlock.Add(NewBasicChank[0]);
                     }
@@ -78,7 +83,7 @@ public class WorldGeneration : MonoBehaviour
             }
         }
     }
-    void CreateCave(Vector3 vector, float scale)
+    void CreateCave(Vector3 vector, float scale, GameObject parentChank)
     {
         GameObject chank = null;
         float noise = 0;
@@ -113,37 +118,37 @@ public class WorldGeneration : MonoBehaviour
             Vector3 vector2 = vector + V2 * scale;
             Vector3 vector3 = vector + V3 * scale;
             Vector3 vector4 = vector + V4 * scale;
-            if(PerlinNoise(vector1) < noise)
+            if (PerlinNoise(vector1) < noise)
             {
-                GameObject block1 = Instantiate(chank, vector1, Quaternion.identity, Global.Earth.transform);
+                GameObject block1 = Instantiate(chank, vector1, Quaternion.identity, parentChank.transform);
             }
             else
             {
-                CreateCave(vector1, scale/2);
+                CreateCave(vector1, scale / 2, parentChank);
             }
-            if(PerlinNoise(vector1) < noise)
+            if (PerlinNoise(vector2) < noise)
             {
-                GameObject block2 = Instantiate(chank, vector2, Quaternion.identity, Global.Earth.transform);
-            }
-            else
-            {
-                CreateCave(vector2, scale/2);
-            }
-            if(PerlinNoise(vector1) < noise)
-            {
-                GameObject block3 = Instantiate(chank, vector3, Quaternion.identity, Global.Earth.transform);
+                GameObject block2 = Instantiate(chank, vector2, Quaternion.identity, parentChank.transform);
             }
             else
             {
-                CreateCave(vector3, scale/2);
+                CreateCave(vector2, scale / 2, parentChank);
             }
-            if(PerlinNoise(vector1) < noise)
+            if (PerlinNoise(vector3) < noise)
             {
-                GameObject block4 = Instantiate(chank, vector4, Quaternion.identity, Global.Earth.transform);
+                GameObject block3 = Instantiate(chank, vector3, Quaternion.identity, parentChank.transform);
             }
             else
             {
-                CreateCave(vector4, scale/2);
+                CreateCave(vector3, scale / 2, parentChank);
+            }
+            if (PerlinNoise(vector4) < noise)
+            {
+                GameObject block4 = Instantiate(chank, vector4, Quaternion.identity, parentChank.transform);
+            }
+            else
+            {
+                CreateCave(vector4, scale / 2, parentChank);
             }
         }
     }
@@ -152,13 +157,13 @@ public class WorldGeneration : MonoBehaviour
         bool CheckChank = true;
         foreach (var vector2 in AllBasicVector3Chank)
         {
-            if(vector1 == vector2)
+            if (vector1 == vector2)
             {
                 CheckChank = false;
                 break;
             }
         }
-        if(CheckChank)
+        if (CheckChank)
         {
             NewBasicChank.Add(vector1);
             AllBasicVector3Chank.Add(vector1);
@@ -171,8 +176,8 @@ public class WorldGeneration : MonoBehaviour
         {
             float scale = vectorCave.localScale.x;
             float distans = Vector3.Distance(vectorCave.position, vector);
-            float value2 = 1 - ((distans/(scale/35))/100);
-            if(value2 > value)
+            float value2 = 1 - ((distans / (scale / 40)) / 100);
+            if (value2 > value)
             {
                 value = value2;
             }
