@@ -37,7 +37,6 @@ public class Building : MonoBehaviour
         LightBase.GetComponent<Light>().enabled = true;
         if (gameObject.tag == "Base")
         {
-            gameObject.GetComponent<Base>().ReadyBuild = 1;
             GetComponent<SpriteRenderer>().color = Color.white;
         }
 

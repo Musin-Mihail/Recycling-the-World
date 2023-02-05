@@ -140,7 +140,7 @@ public class Mouse : MonoBehaviour
             Building.tag = "Base";
             Building.name = "Base" + Global.NumeBase;
             Global.NumeBase ++;
-            Building.AddComponent<Base>();
+            Building.AddComponent<Base.Base>();
             Global.RedBase -= 200;
             Global.YellowBase -= 20;
         }

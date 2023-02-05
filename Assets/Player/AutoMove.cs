@@ -123,17 +123,17 @@ public class AutoMove : MonoBehaviour
                         {
                             if (_red > 0)
                             {
-                                _target.GetComponent<Base>().Red++;
+                                _target.GetComponent<Base.Base>().red++;
                                 _red--;
                             }
                             else if (_yellow > 0)
                             {
-                                _target.GetComponent<Base>().Yellow++;
+                                _target.GetComponent<Base.Base>().yellow++;
                                 _yellow--;
                             }
                             else if (_blue > 0)
                             {
-                                _target.GetComponent<Base>().Blue++;
+                                _target.GetComponent<Base.Base>().blue++;
                                 _blue--;
                             }
                         }
