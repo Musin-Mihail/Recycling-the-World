@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -11,10 +9,13 @@ public class Text2 : MonoBehaviour
     public Text YellowBase;
     public Text RedBase;
     public Text BlueBase;
+
     public Text MagentaBase;
+
     // public Text Energy;
     // public Text Storage;
     public GameObject Win;
+
     public GameObject UpdateStat;
     // int Check = 1;
 
@@ -35,15 +36,18 @@ public class Text2 : MonoBehaviour
         //     Check = 0;
         // }
     }
+
     public void WinDisable()
     {
         Win.SetActive(false);
     }
+
     public void UpdateEnable()
     {
         UpdateStat.SetActive(true);
         UpdatePlayer.CheckUpdate = 1;
     }
+
     public void UpdateDisable()
     {
         UpdateStat.SetActive(false);

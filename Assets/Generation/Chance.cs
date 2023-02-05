@@ -1,13 +1,17 @@
 ﻿using UnityEngine;
+
 public class Chance : MonoBehaviour
 {
     float size;
+
     // float sizeBlock = 0.6f;
     // int DisableColor = 0;
     Vector3 Target1;
     Vector3 Target2;
     Vector3 Target3;
+
     Vector3 Target4;
+
     // int check2 = 1;
     // public GameObject Parent;
     // int layerMask = 1 << 14; //Пещера
@@ -25,11 +29,11 @@ public class Chance : MonoBehaviour
         // fff = threshold + transform.localScale.x / 25;
 
         size = transform.localScale.x;
-        Target1 = new Vector3(transform.position.x-size/4,transform.position.y-size/4,transform.position.z);
-        Target2 = new Vector3(transform.position.x-size/4,transform.position.y+size/4,transform.position.z);
-        Target3 = new Vector3(transform.position.x+size/4,transform.position.y-size/4,transform.position.z);
-        Target4 = new Vector3(transform.position.x+size/4,transform.position.y+size/4,transform.position.z);
-        Invoke("GenCave",Random.Range(0.4f,0.7f));
+        Target1 = new Vector3(transform.position.x - size / 4, transform.position.y - size / 4, transform.position.z);
+        Target2 = new Vector3(transform.position.x - size / 4, transform.position.y + size / 4, transform.position.z);
+        Target3 = new Vector3(transform.position.x + size / 4, transform.position.y - size / 4, transform.position.z);
+        Target4 = new Vector3(transform.position.x + size / 4, transform.position.y + size / 4, transform.position.z);
+        Invoke("GenCave", Random.Range(0.4f, 0.7f));
     }
 
 //     private void OnTriggerEnter2D(Collider2D other)

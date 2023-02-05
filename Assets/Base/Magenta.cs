@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -11,12 +10,14 @@ public class Magenta : MonoBehaviour
     public int CostBlue = 5;
     public int AllCostBuild;
     public List<GameObject> MainBase = new List<GameObject>();
+
     void Start()
     {
         AllCostBuild = CostRed + CostYellow + CostBlue;
         GetComponent<Delivery>().Search(MainBase, gameObject, "MainBase");
-        StartCoroutine (BaseBuild.Build(MainBase, Red: CostRed, Yellow: CostYellow, Blue: CostBlue, AllCost:AllCostBuild));
+        StartCoroutine(BaseBuild.Build(MainBase, Red: CostRed, Yellow: CostYellow, Blue: CostBlue, AllCost: AllCostBuild));
     }
+
     public void RecyclingOut()
     {
         RecRes = 0;
@@ -26,9 +27,10 @@ public class Magenta : MonoBehaviour
         res.tag = "Magenta";
         Busy = 0;
     }
+
     public void Recycling()
     {
         Busy = 1;
-        StartCoroutine (BaseBuild.Recycling(MainBase, Red: 200, Yellow: 20, Blue: 5, AllCost:AllCostBuild));
+        StartCoroutine(BaseBuild.Recycling(MainBase, Red: 200, Yellow: 20, Blue: 5, AllCost: AllCostBuild));
     }
 }

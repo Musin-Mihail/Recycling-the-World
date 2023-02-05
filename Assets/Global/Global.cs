@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class Global : MonoBehaviour
@@ -19,7 +18,9 @@ public class Global : MonoBehaviour
     public static GameObject Resource;
     public static GameObject Resource2;
     public static GameObject ResourceBuild;
+
     public static GameObject ResourceRecycling;
+
     // public static GameObject Buildings;
     public static List<GameObject> BuildingsList;
     public static List<GameObject> BuildingsDiger;
@@ -29,7 +30,7 @@ public class Global : MonoBehaviour
     public static GameObject Chank2;
     public static int EnergyCount = 5000;
     public static int Energy = 5;
-    public static int storage = 2; 
+    public static int storage = 2;
     public static int storageCount;
     public static GameObject Earth;
     public static GameObject Cave;
@@ -47,6 +48,7 @@ public class Global : MonoBehaviour
     public Vector2 _rangeY;
     public static List<GameObject> ListFactory = new List<GameObject>();
     public static List<GameObject> ListMagenta = new List<GameObject>();
+
     void Awake()
     {
         BuildingsList = new List<GameObject>();
@@ -59,7 +61,7 @@ public class Global : MonoBehaviour
         Enemy = Resources.Load<GameObject>("Enemy");
         Earth = GameObject.Find("Earth");
         EnemyStor = GameObject.Find("EnemyStor");
-        RandomCave = Random.Range(500,1500);
+        RandomCave = Random.Range(500, 1500);
         // print(RandomCave);
         // RandomCave = 722;
         Resource = Resources.Load<GameObject>("Resource");
@@ -69,11 +71,12 @@ public class Global : MonoBehaviour
         Chank = Resources.Load<GameObject>("Chank");
         Cave = Resources.Load<GameObject>("Cave");
     }
+
     void Update()
     {
         _rangeX = new Vector2(_minMoveX, _maxMoveX);
         _rangeY = new Vector2(_minMoveY, _maxMoveY);
-        if (CheckFactory==2)
+        if (CheckFactory == 2)
         {
             RecyclingBlue2.SetActive(true);
         }
@@ -81,7 +84,8 @@ public class Global : MonoBehaviour
         {
             RecyclingBlue2.SetActive(false);
         }
-        if (CheckMagenta==2)
+
+        if (CheckMagenta == 2)
         {
             RecyclingMageta2.SetActive(true);
         }
@@ -89,31 +93,34 @@ public class Global : MonoBehaviour
         {
             RecyclingMageta2.SetActive(false);
         }
-        storageCount = Red+Yellow;
-        if(EnergyCount < 0)
+
+        storageCount = Red + Yellow;
+        if (EnergyCount < 0)
         {
             EnergyCount = 0;
         }
-        if(EnergyCount > UpdatePlayer.EnergyCountMax)
+
+        if (EnergyCount > UpdatePlayer.EnergyCountMax)
         {
             EnergyCount = UpdatePlayer.EnergyCountMax;
         }
-        if(EnergyCount <= 0)
+
+        if (EnergyCount <= 0)
         {
             LightPlayer.GetComponent<Light>().intensity = 0.5f;
             LightPlayerF.GetComponent<Light>().intensity = 0.5f;
         }
-        else if(EnergyCount < 500)
+        else if (EnergyCount < 500)
         {
-            LightPlayer.GetComponent<Light>().intensity = Random.Range(0.0f,1.0f);
-            LightPlayerF.GetComponent<Light>().intensity = Random.Range(0.0f,1.0f);
+            LightPlayer.GetComponent<Light>().intensity = Random.Range(0.0f, 1.0f);
+            LightPlayerF.GetComponent<Light>().intensity = Random.Range(0.0f, 1.0f);
         }
-        else if(EnergyCount < 1000)
+        else if (EnergyCount < 1000)
         {
             LightPlayer.GetComponent<Light>().intensity = 1;
             LightPlayerF.GetComponent<Light>().intensity = 1;
         }
-        else if(EnergyCount < 2000)
+        else if (EnergyCount < 2000)
         {
             LightPlayer.GetComponent<Light>().intensity = 2;
             LightPlayerF.GetComponent<Light>().intensity = 2;
@@ -122,74 +129,79 @@ public class Global : MonoBehaviour
         {
             LightPlayer.GetComponent<Light>().intensity = 3;
             LightPlayerF.GetComponent<Light>().intensity = 5;
-        }        
+        }
     }
+
     public void Exit()
     {
         Application.Quit();
     }
+
     public void RecyclingBlue()
     {
-        if(RedBase>=200 && YellowBase>=20)
+        if (RedBase >= 200 && YellowBase >= 20)
         {
             foreach (GameObject Factory2 in ListFactory)
             {
-                if(Factory2.GetComponent<Factory>().Busy == 0 )
+                if (Factory2.GetComponent<Factory>().Busy == 0)
                 {
-                    RedBase -=200;
-                    YellowBase -=20;
+                    RedBase -= 200;
+                    YellowBase -= 20;
                     Factory2.GetComponent<Factory>().Recycling();
                     break;
                 }
             }
         }
     }
+
     public void RecyclingMageta()
     {
-        if(RedBase>=200 && YellowBase>=20 && BlueBase>=5)
+        if (RedBase >= 200 && YellowBase >= 20 && BlueBase >= 5)
         {
             foreach (GameObject Magenta2 in ListMagenta)
             {
-                if(Magenta2.GetComponent<Magenta>().Busy == 0 )
+                if (Magenta2.GetComponent<Magenta>().Busy == 0)
                 {
-                    RedBase -=200;
-                    YellowBase -=20;
-                    BlueBase -=5;
+                    RedBase -= 200;
+                    YellowBase -= 20;
+                    BlueBase -= 5;
                     Magenta2.GetComponent<Magenta>().Recycling();
                     break;
                 }
             }
         }
     }
-    public static void NewMaxPosition (float x, float y)
+
+    public static void NewMaxPosition(float x, float y)
     {
-        if(x > 0)
+        if (x > 0)
         {
-            if(x > _maxMoveX)
+            if (x > _maxMoveX)
             {
                 _maxMoveX = x;
             }
         }
         else
         {
-            if(x < _minMoveX)
+            if (x < _minMoveX)
             {
                 _minMoveX = x;
             }
         }
-        if(y > 0)
+
+        if (y > 0)
         {
-            if(y > _maxMoveY)
+            if (y > _maxMoveY)
             {
                 _maxMoveY = y;
             }
         }
         else
         {
-            if(y < _minMoveY)
+            if (y < _minMoveY)
             {
-                _minMoveY = y; 
+                _minMoveY = y;
             }
-        } 
+        }
     }
 }

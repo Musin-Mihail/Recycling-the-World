@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+
 public class WorldGeneration : MonoBehaviour
 {
     float noise1 = 0.55f;
@@ -8,7 +9,9 @@ public class WorldGeneration : MonoBehaviour
     float noise3 = 0.70f;
     float noise4 = 0.75f;
     float noise5 = 0.785f;
+
     float noise6 = 0.796f;
+
     // float ChanceYellow;
     // float ChanceRed;
     // float ChanceRes3;
@@ -31,10 +34,12 @@ public class WorldGeneration : MonoBehaviour
     Vector3 V4 = new Vector3(1, -1, 0);
     int maxDistans = 1000;
     public GameObject BlackChank;
+
     void Start()
     {
         StartCoroutine(BasicChankGeneration());
     }
+
     IEnumerator BasicChankGeneration()
     {
         NewBasicChank.Add(new Vector3(0, 0, 0));
@@ -50,6 +55,7 @@ public class WorldGeneration : MonoBehaviour
                     {
                         AddVector3Chank(NewBasicChank[0] + Vector3.up * 10);
                     }
+
                     AddVector3Chank(NewBasicChank[0] - Vector3.right * 10);
                     AddVector3Chank(NewBasicChank[0] + Vector3.right * 10);
                     AddVector3Chank(NewBasicChank[0] - Vector3.up * 10);
@@ -62,6 +68,7 @@ public class WorldGeneration : MonoBehaviour
                             break;
                         }
                     }
+
                     if (CheckChank)
                     {
                         if (PerlinNoise(NewBasicChank[0]) < noise1)
@@ -76,13 +83,16 @@ public class WorldGeneration : MonoBehaviour
                             chank.transform.parent = Global.Earth.transform;
                             CreateCave(NewBasicChank[0], 2.5f, chank);
                         }
+
                         AllVectorBlock.Add(NewBasicChank[0]);
                     }
                 }
+
                 NewBasicChank.RemoveAt(0);
             }
         }
     }
+
     void CreateCave(Vector3 vector, float scale, GameObject parentChank)
     {
         GameObject chank = null;
@@ -112,6 +122,7 @@ public class WorldGeneration : MonoBehaviour
             chank = Chank6;
             noise = noise6;
         }
+
         if (chank != null)
         {
             Vector3 vector1 = vector + V1 * scale;
@@ -126,6 +137,7 @@ public class WorldGeneration : MonoBehaviour
             {
                 CreateCave(vector1, scale / 2, parentChank);
             }
+
             if (PerlinNoise(vector2) < noise)
             {
                 GameObject block2 = Instantiate(chank, vector2, Quaternion.identity, parentChank.transform);
@@ -134,6 +146,7 @@ public class WorldGeneration : MonoBehaviour
             {
                 CreateCave(vector2, scale / 2, parentChank);
             }
+
             if (PerlinNoise(vector3) < noise)
             {
                 GameObject block3 = Instantiate(chank, vector3, Quaternion.identity, parentChank.transform);
@@ -142,6 +155,7 @@ public class WorldGeneration : MonoBehaviour
             {
                 CreateCave(vector3, scale / 2, parentChank);
             }
+
             if (PerlinNoise(vector4) < noise)
             {
                 GameObject block4 = Instantiate(chank, vector4, Quaternion.identity, parentChank.transform);
@@ -152,6 +166,7 @@ public class WorldGeneration : MonoBehaviour
             }
         }
     }
+
     void AddVector3Chank(Vector3 vector1)
     {
         bool CheckChank = true;
@@ -163,12 +178,14 @@ public class WorldGeneration : MonoBehaviour
                 break;
             }
         }
+
         if (CheckChank)
         {
             NewBasicChank.Add(vector1);
             AllBasicVector3Chank.Add(vector1);
         }
     }
+
     float PerlinNoise(Vector3 vector)
     {
         float value = Mathf.PerlinNoise((vector.x + Global.RandomCave) * noiseScale, (vector.y + Global.RandomCave) * noiseScale);
@@ -182,6 +199,7 @@ public class WorldGeneration : MonoBehaviour
                 value = value2;
             }
         }
+
         return value;
     }
     //             var Deep = -target.y;

@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 using System.Linq;
+using UnityEngine;
 
 public class AutoMove : MonoBehaviour
 {
@@ -9,7 +9,9 @@ public class AutoMove : MonoBehaviour
     Rigidbody2D _Rigidbody;
     int layerMask = 1 << 8; //Block
     int layerMask2 = 1 << 17; //TopBlock
+
     int layerMask3;
+
     // int layerMask4 = 1 << 18; //Dron
     // int busy = 1;
     int _storagefull = 0;
@@ -39,18 +41,19 @@ public class AutoMove : MonoBehaviour
     public GameObject ComponentBusy;
 
     void Start()
-	{
+    {
         _drill = 0;
         _energy = 5000;
         layerMask3 = layerMask | layerMask2;
-        _StartVector3 = new Vector3 (0,0,0);
+        _StartVector3 = new Vector3(0, 0, 0);
         _Rigidbody = GetComponent<Rigidbody2D>();
         // Invoke("StartMove", 5.0f);
         StartCoroutine(ReSort());
     }
+
     void Update()
     {
-        _jointDistans = Vector2.Distance(transform.position,_drillObject.transform.position)/2;
+        _jointDistans = Vector2.Distance(transform.position, _drillObject.transform.position) / 2;
         _manipulator.transform.rotation = Quaternion.LookRotation(Vector3.forward, _drillObject.transform.position - _manipulator.transform.position);
         _joint.transform.position = transform.position + _manipulator.transform.up * _jointDistans;
         _joint2.transform.position = _joint.transform.position + _manipulator.transform.right * (2.5f - _jointDistans);
@@ -60,14 +63,15 @@ public class AutoMove : MonoBehaviour
         {
             _Hand.transform.rotation = Quaternion.LookRotation(Vector3.forward, _drillObject.transform.position - _Hand.transform.position);
         }
+
         // if (_ListBlock.Count == 0 && busy == 0)
         // {
-            // busy = 1;
-            // SearchBlock();
+        // busy = 1;
+        // SearchBlock();
         // }
         if (_storagefull == 1 || _energyfull == 0)
         {
-            if(_target == null)
+            if (_target == null)
             {
                 SearchNearestBase();
             }
@@ -77,68 +81,72 @@ public class AutoMove : MonoBehaviour
             // }
             else if (_drill == 0)
             {
-                transform.position = Vector2.MoveTowards(transform.position,_target.transform.position, 0.1f);
+                transform.position = Vector2.MoveTowards(transform.position, _target.transform.position, 0.1f);
                 _Hand.transform.rotation = Quaternion.LookRotation(Vector3.forward, _target.transform.position - _Hand.transform.position);
-                if(Vector3.Distance(transform.position, _target.transform.position) < 0.2f)
+                if (Vector3.Distance(transform.position, _target.transform.position) < 0.2f)
                 {
-                    if(_energy < UpdatePlayer.EnergyCountMax)
+                    if (_energy < UpdatePlayer.EnergyCountMax)
                     {
-                        _energy +=50;
-                    }                
-                    else if(_energyfull == 0)
+                        _energy += 50;
+                    }
+                    else if (_energyfull == 0)
                     {
                         SearchNearestObject();
                         _energyfull = 1;
                         // GetComponent<CircleCollider2D>().isTrigger = false;
                     }
-                    if(_target.name == "MainBase")
+
+                    if (_target.name == "MainBase")
                     {
-                        for(int i = 0; i < Global.storage; i++)
+                        for (int i = 0; i < Global.storage; i++)
                         {
-                            if(_red > 0)
+                            if (_red > 0)
                             {
-                                _red --;
-                                Global.RedBase ++;
+                                _red--;
+                                Global.RedBase++;
                             }
-                            else if(_yellow > 0)
+                            else if (_yellow > 0)
                             {
-                                _yellow --;
-                                Global.YellowBase ++;
+                                _yellow--;
+                                Global.YellowBase++;
                             }
-                            else if(_blue > 0)
+                            else if (_blue > 0)
                             {
-                                _blue --;
-                                Global.BlueBase ++;
+                                _blue--;
+                                Global.BlueBase++;
                             }
                         }
                     }
-                    else if(_target.tag == "Base")
+                    else if (_target.tag == "Base")
                     {
-                        for(int i = 0; i < Global.storage; i++)
+                        for (int i = 0; i < Global.storage; i++)
                         {
-                            if(_red > 0)
+                            if (_red > 0)
                             {
-                                _target.GetComponent<Base>().Red ++;
-                                _red --;
+                                _target.GetComponent<Base>().Red++;
+                                _red--;
                             }
-                            else if(_yellow > 0)
+                            else if (_yellow > 0)
                             {
-                                _target.GetComponent<Base>().Yellow ++;
-                                _yellow --;
+                                _target.GetComponent<Base>().Yellow++;
+                                _yellow--;
                             }
-                            else if(_blue > 0)
+                            else if (_blue > 0)
                             {
-                                _target.GetComponent<Base>().Blue ++;
-                                _blue --;
+                                _target.GetComponent<Base>().Blue++;
+                                _blue--;
                             }
                         }
                     }
+
                     _storageCount = _red + _yellow + _blue;
                 }
+
                 if (_storageCount == 0 && _storagefull == 1)
                 {
                     _storagefull = 0;
                 }
+
                 return;
             }
         }
@@ -150,28 +158,32 @@ public class AutoMove : MonoBehaviour
             }
             else if (_drill == 0)
             {
-                transform.position = Vector2.MoveTowards(transform.position,_ListBlock[0].transform.position, 0.1f);
+                transform.position = Vector2.MoveTowards(transform.position, _ListBlock[0].transform.position, 0.1f);
                 _Hand.transform.rotation = Quaternion.LookRotation(Vector3.forward, _ListBlock[0].transform.position - _Hand.transform.position);
-                _energy -=5;
+                _energy -= 5;
             }
         }
+
         if (_energy <= 0 && _energyfull == 1)
         {
             _energyfull = 0;
             _storagefull = 1;
         }
+
         if (_storageCount >= UpdatePlayer.storageCountMax && _storagefull == 0)
         {
             _storagefull = 1;
             _energyfull = 0;
         }
-        if(_energyfull == 1 && _storageCount == 0 && _target != null)
+
+        if (_energyfull == 1 && _storageCount == 0 && _target != null)
         {
             _target.GetComponent<Busy>()._busy = 0;
             _target = null;
         }
-        RaycastHit2D hit = Physics2D.Raycast(_Hand.transform.position, _Hand.transform.up,30,layerMask3);
-        if(hit && hit.collider.name == "Top")
+
+        RaycastHit2D hit = Physics2D.Raycast(_Hand.transform.position, _Hand.transform.up, 30, layerMask3);
+        if (hit && hit.collider.name == "Top")
         {
             Destroy(hit.collider.gameObject);
         }
@@ -182,102 +194,104 @@ public class AutoMove : MonoBehaviour
         //     transform.position = transform.position + (transform.position - hit2.transform.position);
         // }
     }
+
     void SearchBlock()
     {
         // if(_targetDigger == null)
         // {
-            // if(Global.BuildingsDiger.Count > 0)
-            // {
-                // _targetDigger = Global.BuildingsDiger[0];
-                // Global.BuildingsDiger.RemoveAt(0);
+        // if(Global.BuildingsDiger.Count > 0)
+        // {
+        // _targetDigger = Global.BuildingsDiger[0];
+        // Global.BuildingsDiger.RemoveAt(0);
 
-                // if(_targetDigger != null)
-                // {
-                //     hitColliders = Physics2D.OverlapCircleAll(_targetDigger.transform.position, radius, layerMask);
-                //     if (hitColliders.Length > 0)
-                //     {
-                //         _ListBlock = hitColliders.ToList();
-                //     }
-                //     else
-                //     {
-                //         _targetDigger.GetComponent<Busy>()._numberBots--;
-                //         _targetDigger = null;
-                //     }
-                // }
-                // else
-                // {
-                    int count = 100;
-                    foreach (var item in Global.BuildingsDiger)
+        // if(_targetDigger != null)
+        // {
+        //     hitColliders = Physics2D.OverlapCircleAll(_targetDigger.transform.position, radius, layerMask);
+        //     if (hitColliders.Length > 0)
+        //     {
+        //         _ListBlock = hitColliders.ToList();
+        //     }
+        //     else
+        //     {
+        //         _targetDigger.GetComponent<Busy>()._numberBots--;
+        //         _targetDigger = null;
+        //     }
+        // }
+        // else
+        // {
+        int count = 100;
+        foreach (var item in Global.BuildingsDiger)
+        {
+            if (item.GetComponent<Busy>()._empty == 1 && count > item.GetComponent<Busy>()._numberBots)
+            {
+                count = item.GetComponent<Busy>()._numberBots;
+                if (_targetDigger != null)
+                {
+                    if (_targetDigger.GetComponent<Busy>()._numberBots > count + 1)
                     {
-                        if(item.GetComponent<Busy>()._empty == 1 && count > item.GetComponent<Busy>()._numberBots)
-                        {
-                            count = item.GetComponent<Busy>()._numberBots;
-                            if(_targetDigger != null)
-                            {
-                                if(_targetDigger.GetComponent<Busy>()._numberBots > count+1)
-                                {
-                                    _targetDigger.GetComponent<Busy>()._numberBots--;
-                                    _targetDigger = item;
-                                    _targetDigger.GetComponent<Busy>()._numberBots++;
-                                    Debug.Log("Дрон - " + name + " переключился на здание - " + _targetDigger.name);
-                                }
-                            }
-                            else
-                            {
-                                _targetDigger = item;
-                                _targetDigger.GetComponent<Busy>()._numberBots++;
-                                Debug.Log("Дрон - " + name + " переключился на здание - " + _targetDigger.name);
-                            }
-                        }
-                    }
-                    hitColliders = Physics2D.OverlapCircleAll(_targetDigger.transform.position, radius, layerMask);
-                    if(hitColliders.Length > 0)
-                    {
-                        _ListBlock = hitColliders.ToList();
-                    }
-                    else
-                    {
-                        Debug.Log(_targetDigger.name + " - Пуст");
-                        _targetDigger.GetComponent<Busy>()._empty = 0;
                         _targetDigger.GetComponent<Busy>()._numberBots--;
-                        _targetDigger = null;
+                        _targetDigger = item;
+                        _targetDigger.GetComponent<Busy>()._numberBots++;
+                        Debug.Log("Дрон - " + name + " переключился на здание - " + _targetDigger.name);
                     }
-                    
-                    // if(_targetDigger != null)
-                    // {
-                    // _targetDigger.GetComponent<Busy>()._numberBots++;
-                    // }
-                // }
-            // }
-            // else
-            // {
-            //     foreach (var item in Global.BuildingsCharge)
-            //     {
-            //         if(GetComponent<ComponentBusy>())
-            //         {
-            //             continue;
-            //         }
-            //         else
-            //         {
-            //             hitColliders = Physics2D.OverlapCircleAll(item.transform.position, radius, layerMask);
-            //             if(hitColliders.Length > 0)
-            //             {
-            //                 item.AddComponent<ComponentBusy>();
-            //                 _targetDigger = item;
-            //                 break;
-            //             } 
-            //         }
-            //     }
-            //     foreach (var item in Global.BuildingsCharge)
-            //     {
-            //         hitColliders = Physics2D.OverlapCircleAll(item.transform.position, radius, layerMask);
-            //         if(hitColliders.Length > 0)
-            //         {
-            //             _targetDigger = item;
-            //             break;
-            //         } 
-            //     }
-            // }
+                }
+                else
+                {
+                    _targetDigger = item;
+                    _targetDigger.GetComponent<Busy>()._numberBots++;
+                    Debug.Log("Дрон - " + name + " переключился на здание - " + _targetDigger.name);
+                }
+            }
+        }
+
+        hitColliders = Physics2D.OverlapCircleAll(_targetDigger.transform.position, radius, layerMask);
+        if (hitColliders.Length > 0)
+        {
+            _ListBlock = hitColliders.ToList();
+        }
+        else
+        {
+            Debug.Log(_targetDigger.name + " - Пуст");
+            _targetDigger.GetComponent<Busy>()._empty = 0;
+            _targetDigger.GetComponent<Busy>()._numberBots--;
+            _targetDigger = null;
+        }
+
+        // if(_targetDigger != null)
+        // {
+        // _targetDigger.GetComponent<Busy>()._numberBots++;
+        // }
+        // }
+        // }
+        // else
+        // {
+        //     foreach (var item in Global.BuildingsCharge)
+        //     {
+        //         if(GetComponent<ComponentBusy>())
+        //         {
+        //             continue;
+        //         }
+        //         else
+        //         {
+        //             hitColliders = Physics2D.OverlapCircleAll(item.transform.position, radius, layerMask);
+        //             if(hitColliders.Length > 0)
+        //             {
+        //                 item.AddComponent<ComponentBusy>();
+        //                 _targetDigger = item;
+        //                 break;
+        //             } 
+        //         }
+        //     }
+        //     foreach (var item in Global.BuildingsCharge)
+        //     {
+        //         hitColliders = Physics2D.OverlapCircleAll(item.transform.position, radius, layerMask);
+        //         if(hitColliders.Length > 0)
+        //         {
+        //             _targetDigger = item;
+        //             break;
+        //         } 
+        //     }
+        // }
         // }
         // {
         //     hitColliders = Physics2D.OverlapCircleAll(_targetDigger.transform.position, radius, layerMask);
@@ -293,25 +307,28 @@ public class AutoMove : MonoBehaviour
         // }
         // busy = 0;
     }
+
     IEnumerator ReSort()
     {
         yield return new WaitForSeconds(3.0f);
-        while(true)
+        while (true)
         {
             SearchBlock();
             yield return new WaitForSeconds(1.0f);
         }
     }
+
     public void SearchNearestObject()
     {
-        _ListBlock = _ListBlock.Where(x => x != null).OrderBy(x => Vector2.Distance(transform.position,x.transform.position)).ToList();
+        _ListBlock = _ListBlock.Where(x => x != null).OrderBy(x => Vector2.Distance(transform.position, x.transform.position)).ToList();
     }
+
     void SearchNearestBase()
     {
-        var test = Global.BuildingsCharge.Where(x => x != null).OrderBy(x => Vector2.Distance(transform.position,x.transform.position)).ToList();
+        var test = Global.BuildingsCharge.Where(x => x != null).OrderBy(x => Vector2.Distance(transform.position, x.transform.position)).ToList();
         foreach (var item in test)
         {
-            if(item.GetComponent<Busy>()._busy == 0)
+            if (item.GetComponent<Busy>()._busy == 0)
             {
                 _target = item;
                 item.GetComponent<Busy>()._busy = 1;
@@ -321,6 +338,7 @@ public class AutoMove : MonoBehaviour
             }
         }
     }
+
     // void StartMove()
     // {
     //     busy = 0;
@@ -355,7 +373,7 @@ public class AutoMove : MonoBehaviour
     // }
     void OnTriggerEnter2D(Collider2D other)
     {
-        if(other.name == "Block")
+        if (other.name == "Block")
         {
             _drill = 1;
         }

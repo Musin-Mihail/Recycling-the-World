@@ -1,10 +1,9 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class TestVelocity : MonoBehaviour
 {
     Rigidbody2D _rigidbody;
+
     void Start()
     {
         _rigidbody = GetComponent<Rigidbody2D>();

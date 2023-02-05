@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class DisableUpdate : MonoBehaviour
@@ -8,10 +6,10 @@ public class DisableUpdate : MonoBehaviour
     GameObject BBase;
     float BaseDistance;
     public GameObject DisableDistant;
-    
-    
+
+
     void Update()
-    {     
+    {
         if (BBase == null)
         {
             SearchBase();
@@ -20,17 +18,18 @@ public class DisableUpdate : MonoBehaviour
         {
             BaseDistance = Vector3.Distance(BBase.transform.position, transform.position);
 //Отключение постройки и улучшения
-            if (BaseDistance>20)
+            if (BaseDistance > 20)
             {
                 SearchBase();
                 DisableDistant.SetActive(false);
-            } 
+            }
             else
             {
                 DisableDistant.SetActive(true);
             }
         }
     }
+
 //Поиск ближайшего здания
     void SearchBase()
     {
